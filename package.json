@@ -1,5 +1,5 @@
 {
-  "name": "react-template",
+  "name": "sumry",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,10 +8,6 @@
     "format": "prettier \"src/** /* .{js, html}\" --write",
     "lint": "eslint \"src/** /* .{js, jsx}\" --quiet",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/luckyman20/react-template.git"
   },
   "keywords": [],
   "author": "",
@@ -30,14 +26,9 @@
   "dependencies": {
     "@reach/router": "^1.3.3",
     "axios": "^0.19.2",
-    "grommet": "^2.13.0",
-    "grommet-icons": "^4.4.0",
     "react": "^16.13.1",
+    "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "styled-components": "^5.1.1"
-  },
-  "bugs": {
-    "url": "https://github.com/luckyman20/react-template/issues"
-  },
-  "homepage": "https://github.com/luckyman20/react-template#readme"
+  }
 }
