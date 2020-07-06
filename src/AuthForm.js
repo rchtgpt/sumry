@@ -9,22 +9,30 @@ const AuthForm = () => {
   return (
     <Container>
       {loginError ? (
-        <Alert variant="danger">
+        <Alert variant="danger" dismissible>
           Either username or password is incorrect!
         </Alert>
       ) : null}
       <Form
-        onSubmit={(value) => {
+        onSubmit={(event) => {
           event.preventDefault();
+          event.persist();
+          console.log(event.target.formUsername.value);
+          console.log(event.target.formPassword.value);
           Axios.get("https://api.bitbucket.org/2.0/repositories/hmg65", {
             auth: {
-              username: value.formUsername,
-              passowrd: value.formPassword,
+              username: event.target.formUsername.value,
+              password: event.target.formPassword.value,
             },
           })
             .then((response) => {
               if (response.status == 200) {
-                navigate("/dashboard");
+                navigate("/dashboard", {
+                  state: {
+                    username: event.target.formUsername.value,
+                    password: event.target.formPassword.value,
+                  },
+                });
               }
             })
             .catch((error) => {

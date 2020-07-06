@@ -1,22 +1,31 @@
-import React from "react";
-import { Nav, Container } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Container } from "react-bootstrap";
+import Axios from "axios";
 
-const Dashboard = () => {
-  return (
-    <Container>
-      <Nav defaultActiveKey="/login" as="ul">
-        <Nav.Item as="li">
-          <Nav.Link href="/home">Home</Nav.Link>
-        </Nav.Item>
-        <Nav.Item as="li">
-          <Nav.Link href="/about">About</Nav.Link>
-        </Nav.Item>
-        <Nav.Item as="li">
-          <Nav.Link href="/login">Login</Nav.Link>
-        </Nav.Item>
-      </Nav>
-    </Container>
-  );
+const Dashboard = (props) => {
+  const users = [];
+
+  useEffect(() => {
+    Axios.get("https://api.bitbucket.org/2.0/workspaces/hmg65/members", {
+      auth: {
+        username: props.location.state.username,
+        password: props.location.state.password,
+      },
+    }).then((response) => {
+      if (response.status === 200) {
+        response.data.values.map((u) => {
+          users.push({
+            userid: u.user.uuid,
+            img_link: u.user.links.avatar.href,
+            name: u.user.nickname,
+          });
+        });
+        console.log(users);
+      }
+    });
+  }, [props.location.state.password, props.location.state.username, users]);
+
+  return <Container></Container>;
 };
 
 export default Dashboard;
