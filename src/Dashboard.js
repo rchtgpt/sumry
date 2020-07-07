@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Container, CardColumns } from "react-bootstrap";
 import Axios from "axios";
+import { navigate } from "@reach/router";
 
 const Dashboard = (props) => {
   const [users, setUsers] = useState([]);
@@ -34,7 +35,21 @@ const Dashboard = (props) => {
     <Container>
       <CardColumns>
         {users.map((user) => (
-          <Card border="primary" key={user.id}>
+          <Card
+            key={user.id}
+            tag="a"
+            onClick={() => {
+              navigate(`/report/${user.id}`, {
+                state: {
+                  username: props.location.state.username,
+                  password: props.location.state.password,
+                  id: user.id,
+                },
+              });
+            }}
+            style={{ cursor: "pointer" }}
+            border="primary"
+          >
             <Card.Img variant="top" src={user.img_link} />
             <Card.Title>{user.name}</Card.Title>
           </Card>
