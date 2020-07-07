@@ -38,10 +38,10 @@ const Dashboard = (props) => {
 								<Card.Img
 									variant="top"
 									src="https://secure.gravatar.com/avatar/e165b6d5ef6a10ea53218113faf83646?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FRG-4.png"
-									round
+									roundCircle
 								/>
 								<Card.Title>Rachit Gupta</Card.Title>
-								<Button href="https://google.co.in" target="blank">
+								<Button href="report/:id" target="blank">
 									Summary
 								</Button>
 							</Card.Body>
