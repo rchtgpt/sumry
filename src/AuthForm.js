@@ -17,8 +17,6 @@ const AuthForm = () => {
         onSubmit={(event) => {
           event.preventDefault();
           event.persist();
-          console.log(event.target.formUsername.value);
-          console.log(event.target.formPassword.value);
           Axios.get("https://api.bitbucket.org/2.0/repositories/hmg65", {
             auth: {
               username: event.target.formUsername.value,
@@ -26,7 +24,7 @@ const AuthForm = () => {
             },
           })
             .then((response) => {
-              if (response.status == 200) {
+              if (response.status === 200) {
                 navigate("/dashboard", {
                   state: {
                     username: event.target.formUsername.value,
@@ -36,7 +34,7 @@ const AuthForm = () => {
               }
             })
             .catch((error) => {
-              if (error.response.status == 401) {
+              if (error.response.status === 401) {
                 setLoginError(true);
               }
             });

@@ -3,8 +3,9 @@ import ReactDOM from "react-dom";
 import AuthForm from "./AuthForm";
 import Dashboard from "./Dashboard";
 import About from "./About";
+import DevReport from "./DevReport";
 import { Router } from "@reach/router";
-import { Nav } from "react-bootstrap";  
+import { Nav } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
         <AuthForm path="/login" />
         <Dashboard path="/dashboard" />
         <About path="/about" />
+        <DevReport path="/report/:id" />
       </Router>
     </React.StrictMode>
   );
