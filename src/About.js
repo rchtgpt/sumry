@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Card, Col, Row } from 'react-bootstrap';
+import { Container, Card, Col, Row, CardColumns } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
 
 const About = () => {
@@ -27,38 +27,52 @@ const About = () => {
 						</Card.Text>
 						<Card.Title>Our team</Card.Title>
 						<Row>
-							<Card style={{ width: '18rem' }}>
-								<Card.Body>
-									<Card.Title>Chirag Gupta</Card.Title>
-									<Card.Subtitle className="mb-2 text-muted">Backend Developer</Card.Subtitle>
-									<Card.Link href="#">LinkedIn</Card.Link>
-									<Card.Link href="#">Github</Card.Link>
-								</Card.Body>
-							</Card>
-							<Card style={{ width: '18rem' }}>
-								<Card.Body>
-									<Card.Title>Rachit Gupta</Card.Title>
-									<Card.Subtitle className="mb-2 text-muted">Frontend Developer</Card.Subtitle>
-									<Card.Link href="#">LinkedIn</Card.Link>
-									<Card.Link href="#">Github</Card.Link>
-								</Card.Body>
-							</Card>
-							<Card style={{ width: '18rem' }}>
-								<Card.Body>
-									<Card.Title>Laxya Pahuja</Card.Title>
-									<Card.Subtitle className="mb-2 text-muted">Frontend Developer</Card.Subtitle>
-									<Card.Link href="#">LinkedIn</Card.Link>
-									<Card.Link href="#">Github</Card.Link>
-								</Card.Body>
-							</Card>
-							<Card style={{ width: '18rem' }}>
-								<Card.Body>
-									<Card.Title>Hemant Gupta</Card.Title>
-									<Card.Subtitle className="mb-2 text-muted">Backend Developer</Card.Subtitle>
-									<Card.Link href="#">LinkedIn</Card.Link>
-									<Card.Link href="#">Github</Card.Link>
-								</Card.Body>
-							</Card>
+							<CardColumns>
+								<Card style={{ width: 200 }}>
+									<Card.Body>
+										<Card.Img
+											src="https://avatars1.githubusercontent.com/u/44428198?v=4"
+											variant="top"
+											height="150"
+											width="150"
+										/>
+										<Card.Title>Rachit Gupta</Card.Title>
+									</Card.Body>
+								</Card>
+								<Card style={{ width: 200 }}>
+									<Card.Body>
+										<Card.Img
+											src="https://avatars1.githubusercontent.com/u/44428198?v=4"
+											variant="top"
+											height="150"
+											width="150"
+										/>
+										<Card.Title>Rachit Gupta</Card.Title>
+									</Card.Body>
+								</Card>
+								<Card style={{ width: 200 }}>
+									<Card.Body>
+										<Card.Img
+											src="https://avatars1.githubusercontent.com/u/44428198?v=4"
+											variant="top"
+											height="150"
+											width="150"
+										/>
+										<Card.Title>Rachit Gupta</Card.Title>
+									</Card.Body>
+								</Card>
+								<Card style={{ width: 200 }}>
+									<Card.Body>
+										<Card.Img
+											src="https://avatars1.githubusercontent.com/u/44428198?v=4"
+											variant="top"
+											height="150"
+											width="150"
+										/>
+										<Card.Title>Rachit Gupta</Card.Title>
+									</Card.Body>
+								</Card>
+							</CardColumns>
 						</Row>
 					</Card.Body>
 				</Col>
