@@ -14,12 +14,13 @@ const DevReport = (props) => {
   const [pullsComments, setPullsComments] = useState([]);
   const [pullsUpdated, setPullsUpdated] = useState([]);
 
-  const issuesOpened = [];
-  const issueComments = [];
-  const issueResolved = [];
+  const [issuesOpened, setIssuesOpened] = useState([]);
+  const [issueComments, setIssueComments] = useState([]);
+  const [issueResolved, setIssueResolved] = useState([]);
 
-  const commitsCreated = [];
-  const commitComments = [];
+  const [commitsCreated, setCommitsCreated] = useState([]);
+  const [commitComments, setCommitComments] = useState([]);
+  const [commitBuildStatus, setCommitBuildStatus] = useState([]);
 
   const getOpenPulls = async () => {
     await Axios.get(
@@ -89,7 +90,10 @@ const DevReport = (props) => {
             }
           ).then((response) => {
             response.data.values.map((comment) => {
-              if (props.location.state.id === comment.user.uuid) {
+              if (
+                props.location.state.id === comment.user.uuid &&
+                start.toISOString() <= comment.created_on
+              ) {
                 setPullsComments((oldPullsComments) => [
                   ...oldPullsComments,
                   {
@@ -107,9 +111,87 @@ const DevReport = (props) => {
     });
   };
 
+  const getOpenedIssues = async () => {
+    await Axios.get(
+      `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/issues?q=(created_on>=${start.toISOString()} AND created_on<=${end.toISOString()})`,
+      {
+        auth: {
+          username: props.location.state.username,
+          password: props.location.state.password,
+        },
+      }
+    ).then((response) => {
+      response.data.values.map((issue) => {
+        if (props.location.state.id === issue.reporter.uuid) {
+          setIssuesOpened((oldIssuesOpened) => [
+            ...oldIssuesOpened,
+            {
+              id: issue.id,
+              title: issue.title,
+              link: issue.links.html.href,
+              type: issue.kind,
+            },
+          ]);
+        } else {
+          Axios.get(
+            `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/issues/${issue.id}/comments`,
+            {
+              auth: {
+                username: props.location.state.username,
+                password: props.location.state.password,
+              },
+            }
+          ).then((response) => {
+            response.data.values.map((comment) => {
+              if (
+                comment.user.uuid === props.location.state.id &&
+                start.toISOString() <= comment.created_on
+              ) {
+                setIssueComments((oldIssueComments) => [
+                  ...oldIssueComments,
+                  {
+                    issue_title: comment.issue.title,
+                    comment: comment.content.raw,
+                    issue_id: comment.issue.id,
+                  },
+                ]);
+              }
+            });
+          });
+        }
+      });
+    });
+  };
+
+  const getUpdatedIssues = async () => {
+    await Axios.get(
+      `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/issues?q=(updated_on>=${start.toISOString()} AND updated_on<=${end.toISOString()}) AND state="resolved"`,
+      {
+        auth: {
+          username: props.location.state.username,
+          password: props.location.state.password,
+        },
+      }
+    ).then((response) => {
+      response.data.values.map((issue) => {
+        setIssueResolved((oldIssueResolved) => [
+          ...oldIssueResolved,
+          {
+            id: issue.id,
+            title: issue.title,
+            link: issue.links.html.href,
+            type: issue.kind,
+          },
+        ]);
+      });
+    });
+  };
+
   useEffect(() => {
     getOpenPulls();
     getUpdatedPulls();
+    getOpenedIssues();
+    getUpdatedIssues();
   }, []);
 
   return (
@@ -119,6 +201,9 @@ const DevReport = (props) => {
       <h3>Updated PR Count: {pullsUpdated.length}</h3>
       <h3>Merged PR Count: {pullsMerged.length}</h3>
       <h3>PR Comment Count: {pullsComments.length}</h3>
+      <h3>Open Issue Count: {issuesOpened.length}</h3>
+      <h3>Issue Comment Count: {issueComments.length}</h3>
+      <h3>Resolved Issue Count: {issueResolved.length}</h3>
     </Container>
   );
 };
