@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import Axios from "axios";
-import { PieChart, Pie, Tooltip, Cell } from "recharts";
+import React, { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
+import Axios from 'axios';
 
 const DevReport = (props) => {
   const start = new Date();
