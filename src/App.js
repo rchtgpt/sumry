@@ -13,7 +13,11 @@ const App = () => {
 				<Toolbar>
 					<div className="appBar">
 						<Button color="inherit" className="SumryLogo">
-							<img alt="" src="https://avatars1.githubusercontent.com/u/38353418?v=4" width="40" />
+							<img
+								alt=""
+								src="https://user-images.githubusercontent.com/44428198/87041819-6a7c0780-c210-11ea-906e-8d2bd685d43d.png"
+								width="40"
+							/>
 						</Button>
 						<Button color="inherit" href="/about" className="appBarItem">
 							About Us
