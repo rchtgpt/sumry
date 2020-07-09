@@ -31,6 +31,7 @@
 }
 
 .loginForm {
-	margin-top: 6rem;
 	padding: 2em;
+	margin: 10rem;
+	border-width: 2px;
 }
