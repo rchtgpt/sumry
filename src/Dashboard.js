@@ -280,15 +280,15 @@ const Dashboard = (props) => {
         setUsers(temp_users);
       }
     });
-  };
-
-  useEffect(() => {
-    getUsers();
     getOpenPulls();
     getUpdatedPulls();
     getOpenedIssues();
     getUpdatedIssues();
     getCommitsCreated();
+  };
+
+  useEffect(() => {
+    getUsers();
   }, []);
 
   return (
