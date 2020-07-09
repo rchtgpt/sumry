@@ -11,6 +11,10 @@
 	color: #16e16e;
 }
 
+.sumryLogo:hover {
+	color: #fff;
+}
+
 .teamCard {
 	margin: 0.5rem;
 }

@@ -4,7 +4,7 @@ import AuthForm from './AuthForm';
 import Dashboard from './Dashboard';
 import About from './About';
 import { Router } from '@reach/router';
-import { AppBar, Button, Typography, Toolbar, classes, IconButton, MenuIcon } from '@material-ui/core';
+import { AppBar, Button, Toolbar } from '@material-ui/core';
 
 const App = () => {
 	return (
@@ -12,7 +12,7 @@ const App = () => {
 			<AppBar position="static">
 				<Toolbar>
 					<div className="appBar">
-						<Button color="inherit" href="/dashboard" className="appBarItem">
+						<Button color="inherit" className="SumryLogo">
 							Sumry
 						</Button>
 
