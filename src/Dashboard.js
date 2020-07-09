@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import { navigate } from "@reach/router";
+import { Container } from "@material-ui/core";
 
 const Dashboard = (props) => {
   const [users, setUsers] = useState([]);
@@ -27,7 +27,7 @@ const Dashboard = (props) => {
   const getOpenPulls = async () => {
     await Axios.get(
       `https://api.bitbucket.org/2.0/pullrequests/${
-        props.location.state.id
+        users[0].id
       }?q=(created_on>=${start.toISOString()} AND created_on<=${end.toISOString()})`,
       {
         auth: {
@@ -51,7 +51,7 @@ const Dashboard = (props) => {
 
   const getUpdatedPulls = async () => {
     await Axios.get(
-      `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/pullrequests?q=(updated_on>=${start.toISOString()} AND updated_on<=${end.toISOString()})`,
+      `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/pullrequests?q=(updated_on>=${start.toISOString()} AND updated_on<=${end.toISOString()})`,
       {
         auth: {
           username: props.location.state.username,
@@ -61,7 +61,7 @@ const Dashboard = (props) => {
     ).then((response) => {
       // Check each PR manually to check dev's comment
       response.data.values.map((pull) => {
-        if (pull.author.uuid === props.location.state.id) {
+        if (pull.author.uuid === users[0].id) {
           if (pull.state === "MERGED") {
             setPullsMerged((oldPullsMerged) => [
               ...oldPullsMerged,
@@ -83,7 +83,7 @@ const Dashboard = (props) => {
           }
         } else {
           Axios.get(
-            `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/pullrequests/${pull.id}/comments`,
+            `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/pullrequests/${pull.id}/comments`,
             {
               auth: {
                 username: props.location.state.username,
@@ -93,7 +93,7 @@ const Dashboard = (props) => {
           ).then((response) => {
             response.data.values.map((comment) => {
               if (
-                props.location.state.id === comment.user.uuid &&
+                users[0].id === comment.user.uuid &&
                 start.toISOString() <= comment.created_on
               ) {
                 setPullsComments((oldPullsComments) => [
@@ -116,7 +116,7 @@ const Dashboard = (props) => {
 
   const getOpenedIssues = async () => {
     await Axios.get(
-      `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/issues?q=(created_on>=${start.toISOString()} AND created_on<=${end.toISOString()})`,
+      `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/issues?q=(created_on>=${start.toISOString()} AND created_on<=${end.toISOString()})`,
       {
         auth: {
           username: props.location.state.username,
@@ -125,7 +125,7 @@ const Dashboard = (props) => {
       }
     ).then((response) => {
       response.data.values.map((issue) => {
-        if (props.location.state.id === issue.reporter.uuid) {
+        if (users[0].id === issue.reporter.uuid) {
           setIssuesOpened((oldIssuesOpened) => [
             ...oldIssuesOpened,
             {
@@ -137,7 +137,7 @@ const Dashboard = (props) => {
           ]);
         } else {
           Axios.get(
-            `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/issues/${issue.id}/comments`,
+            `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/issues/${issue.id}/comments`,
             {
               auth: {
                 username: props.location.state.username,
@@ -147,7 +147,7 @@ const Dashboard = (props) => {
           ).then((response) => {
             response.data.values.map((comment) => {
               if (
-                comment.user.uuid === props.location.state.id &&
+                comment.user.uuid === users[0].id &&
                 start.toISOString() <= comment.created_on
               ) {
                 setIssueComments((oldIssueComments) => [
@@ -169,7 +169,7 @@ const Dashboard = (props) => {
 
   const getUpdatedIssues = async () => {
     await Axios.get(
-      `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/issues?q=(updated_on>=${start.toISOString()} AND updated_on<=${end.toISOString()}) AND state="resolved"`,
+      `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/issues?q=(updated_on>=${start.toISOString()} AND updated_on<=${end.toISOString()}) AND state="resolved"`,
       {
         auth: {
           username: props.location.state.username,
@@ -178,7 +178,7 @@ const Dashboard = (props) => {
       }
     ).then((response) => {
       response.data.values.map((issue) => {
-        if (issue.reporter.uuid === props.location.state.id) {
+        if (issue.reporter.uuid === users[0].id) {
           setIssueResolved((oldIssueResolved) => [
             ...oldIssueResolved,
             {
@@ -195,7 +195,7 @@ const Dashboard = (props) => {
 
   const getCommitsCreated = async () => {
     await Axios.get(
-      `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/commits`,
+      `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/commits`,
       {
         auth: {
           username: props.location.state.username,
@@ -206,7 +206,7 @@ const Dashboard = (props) => {
       response.data.values.map((commit) => {
         if (
           commit.date >= start.toISOString() &&
-          commit.author.user.uuid === props.location.state.id
+          commit.author.user.uuid === users[0].id
         ) {
           setCommitsCreated((oldCommitsCreated) => [
             ...oldCommitsCreated,
@@ -229,10 +229,10 @@ const Dashboard = (props) => {
         }
         if (
           commit.author.user !== undefined &&
-          commit.author.user.uuid !== props.location.state.id
+          commit.author.user.uuid !== users[0].id
         ) {
           Axios.get(
-            `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/commit/${commit.hash}/comments`,
+            `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/commit/${commit.hash}/comments`,
             {
               auth: {
                 username: props.location.state.username,
@@ -242,7 +242,7 @@ const Dashboard = (props) => {
           ).then((response) => {
             response.data.values.map((comment) => {
               if (
-                comment.user.uuid === props.location.state.id &&
+                comment.user.uuid === users[0].id &&
                 comment.created_on >= start.toISOString()
               ) {
                 setCommitComments((oldCommitComments) => [
@@ -262,7 +262,7 @@ const Dashboard = (props) => {
   };
 
   const getUsers = async () => {
-    await Axios.get("https://api.bitbucket.org/2.0/workspaces/hmg65/members", {
+    await Axios.get("https://api.bitbucket.org/2.0/workspaces/codetest0/members", {
       auth: {
         username: props.location.state.username,
         password: props.location.state.password,
@@ -292,7 +292,7 @@ const Dashboard = (props) => {
   }, []);
 
   return (
-    <div>
+    <Container>
       <h1>This is dev Name</h1>
       <h3>Open PR Count: {pullsOpened.length}</h3>
       <h3>Updated PR Count: {pullsUpdated.length}</h3>
@@ -303,7 +303,7 @@ const Dashboard = (props) => {
       <h3>Resolved Issue Count: {issueResolved.length}</h3>
       <h3>Commit Created Count: {commitsCreated.length}</h3>
       <h3>Commit Comment Count: {commitComments.length}</h3>
-    </div>
+    </Container>
   );
 };
 
