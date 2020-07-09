@@ -17,7 +17,7 @@ const App = () => {
         <Button color="inherit">Login</Button>
       </AppBar>
       <Router>
-        <AuthForm path="/login" />
+        <AuthForm path="/" />
         <Dashboard path="/dashboard" />
         <About path="/about" />
         <DevReport path="/report/:id" />
