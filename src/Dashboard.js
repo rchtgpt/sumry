@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import {
-  Grid,
-  Paper,
-} from "@material-ui/core";
+import { Grid, Paper } from "@material-ui/core";
 
 const Dashboard = (props) => {
   const [users, setUsers] = useState([]);
@@ -14,18 +11,17 @@ const Dashboard = (props) => {
   var end = new Date();
   end.setHours(23, 59, 59, 999);
 
-  const [, setPullsOpened] = useState([]);
-  const [, setPullsMerged] = useState([]);
-  const [, setPullsComments] = useState([]);
-  const [, setPullsUpdated] = useState([]);
+  const [pullsOpened, setPullsOpened] = useState([]);
+  const [pullsMerged, setPullsMerged] = useState([]);
+  const [pullsComments, setPullsComments] = useState([]);
+  const [pullsUpdated, setPullsUpdated] = useState([]);
 
-  const [, setIssuesOpened] = useState([]);
-  const [, setIssueComments] = useState([]);
-  const [, setIssueResolved] = useState([]);
+  const [issuesOpened, setIssuesOpened] = useState([]);
+  const [issueComments, setIssueComments] = useState([]);
+  const [issueResolved, setIssueResolved] = useState([]);
 
-  const [, setCommitsCreated] = useState([]);
-  const [, setCommitComments] = useState([]);
-  const [] = useState([]);
+  const [commitsCreated, setCommitsCreated] = useState([]);
+  const [commitComments, setCommitComments] = useState([]);
 
   const getOpenPulls = async () => {
     await Axios.get(
@@ -207,64 +203,53 @@ const Dashboard = (props) => {
       }
     ).then((response) => {
       response.data.values.map((commit) => {
-        if (
-          commit.date >= start.toISOString() &&
-          commit.author.user.uuid === users[0].id
-        ) {
-          setCommitsCreated((oldCommitsCreated) => [
-            ...oldCommitsCreated,
-            {
-              title: commit.summary.raw,
-              link: commit.links.html.href,
-            },
-          ]);
-          /**      Axios.get(
-            `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/commit/${commit.hash}/statuses/build`,
-            {
-              auth: {
-                username: props.location.state.username,
-                password: props.location.state.password,
+        if (commit.author.user !== undefined) {
+          if (
+            commit.date >= start.toISOString() &&
+            commit.author.user.uuid === users[0].id
+          ) {
+            setCommitsCreated((oldCommitsCreated) => [
+              ...oldCommitsCreated,
+              {
+                title: commit.summary.raw,
+                link: commit.links.html.href,
               },
-            }
-          ).then((response) => {
-            console.log(response.data);
-          }); */
-        }
-        if (
-          commit.author.user !== undefined &&
-          commit.author.user.uuid !== users[0].id
-        ) {
-          Axios.get(
-            `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/commit/${commit.hash}/comments`,
-            {
-              auth: {
-                username: props.location.state.username,
-                password: props.location.state.password,
-              },
-            }
-          ).then((response) => {
-            response.data.values.map((comment) => {
-              if (
-                comment.user.uuid === users[0].id &&
-                comment.created_on >= start.toISOString()
-              ) {
-                setCommitComments((oldCommitComments) => [
-                  ...oldCommitComments,
-                  {
-                    link: comment.links.html.href,
-                    comment: comment.content.raw,
-                    id: comment.id,
-                  },
-                ]);
+            ]);
+          }
+          if (commit.author.user.uuid !== users[0].id) {
+            Axios.get(
+              `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/commit/${commit.hash}/comments`,
+              {
+                auth: {
+                  username: props.location.state.username,
+                  password: props.location.state.password,
+                },
               }
+            ).then((response) => {
+              response.data.values.map((comment) => {
+                if (
+                  comment.user.uuid === users[0].id &&
+                  comment.created_on >= start.toISOString()
+                ) {
+                  setCommitComments((oldCommitComments) => [
+                    ...oldCommitComments,
+                    {
+                      link: comment.links.html.href,
+                      comment: comment.content.raw,
+                      id: comment.id,
+                    },
+                  ]);
+                }
+              });
             });
-          });
+          }
         }
       });
     });
   };
 
   const getUsers = async () => {
+    const tempUsers = [];
     await Axios.get(
       "https://api.bitbucket.org/2.0/workspaces/codetest0/members",
       {
@@ -276,28 +261,29 @@ const Dashboard = (props) => {
     ).then((response) => {
       if (response.status === 200) {
         response.data.values.map((u) => {
-          setUsers((oldUsers) => [
-            ...oldUsers,
-            {
-              id: u.user.uuid,
-              img_link: u.user.links.avatar.href,
-              name: u.user.nickname,
-            },
-          ]);
+          tempUsers.push({
+            id: u.user.uuid,
+            img_link: u.user.links.avatar.href,
+            name: u.user.nickname,
+          });
         });
       }
     });
-
-    getOpenPulls();
-    getUpdatedPulls();
-    getOpenedIssues();
-    getUpdatedIssues();
-    getCommitsCreated();
+    setUsers(tempUsers);
   };
 
   useEffect(() => {
-    getUsers();
-  }, []);
+    console.log(users);
+    if (users.length === 0) {
+      getUsers();
+    } else {
+      getOpenPulls();
+      getUpdatedPulls();
+      getOpenedIssues();
+      getUpdatedIssues();
+      getCommitsCreated();
+    }
+  }, [users]);
 
   return (
     <div>
