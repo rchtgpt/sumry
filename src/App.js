@@ -30,7 +30,6 @@ const App = () => {
 				<AuthForm path="/login" />
 				<Dashboard path="/" />
 				<About path="/about" />
-				<DevReport path="/report/:id" />
 			</Router>
 		</React.StrictMode>
 	);
