@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import { Container } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+} from "@material-ui/core";
 
 const Dashboard = (props) => {
   const [users, setUsers] = useState([]);
@@ -11,18 +14,18 @@ const Dashboard = (props) => {
   var end = new Date();
   end.setHours(23, 59, 59, 999);
 
-  const [pullsOpened, setPullsOpened] = useState([]);
-  const [pullsMerged, setPullsMerged] = useState([]);
-  const [pullsComments, setPullsComments] = useState([]);
-  const [pullsUpdated, setPullsUpdated] = useState([]);
+  const [, setPullsOpened] = useState([]);
+  const [, setPullsMerged] = useState([]);
+  const [, setPullsComments] = useState([]);
+  const [, setPullsUpdated] = useState([]);
 
-  const [issuesOpened, setIssuesOpened] = useState([]);
-  const [issueComments, setIssueComments] = useState([]);
-  const [issueResolved, setIssueResolved] = useState([]);
+  const [, setIssuesOpened] = useState([]);
+  const [, setIssueComments] = useState([]);
+  const [, setIssueResolved] = useState([]);
 
-  const [commitsCreated, setCommitsCreated] = useState([]);
-  const [commitComments, setCommitComments] = useState([]);
-  const [commitBuildStatus, setCommitBuildStatus] = useState([]);
+  const [, setCommitsCreated] = useState([]);
+  const [, setCommitComments] = useState([]);
+  const [] = useState([]);
 
   const getOpenPulls = async () => {
     await Axios.get(
@@ -262,24 +265,29 @@ const Dashboard = (props) => {
   };
 
   const getUsers = async () => {
-    await Axios.get("https://api.bitbucket.org/2.0/workspaces/codetest0/members", {
-      auth: {
-        username: props.location.state.username,
-        password: props.location.state.password,
-      },
-    }).then((response) => {
+    await Axios.get(
+      "https://api.bitbucket.org/2.0/workspaces/codetest0/members",
+      {
+        auth: {
+          username: props.location.state.username,
+          password: props.location.state.password,
+        },
+      }
+    ).then((response) => {
       if (response.status === 200) {
-        const temp_users = [];
         response.data.values.map((u) => {
-          temp_users.push({
-            id: u.user.uuid,
-            img_link: u.user.links.avatar.href,
-            name: u.user.nickname,
-          });
+          setUsers((oldUsers) => [
+            ...oldUsers,
+            {
+              id: u.user.uuid,
+              img_link: u.user.links.avatar.href,
+              name: u.user.nickname,
+            },
+          ]);
         });
-        setUsers(temp_users);
       }
     });
+
     getOpenPulls();
     getUpdatedPulls();
     getOpenedIssues();
@@ -292,18 +300,44 @@ const Dashboard = (props) => {
   }, []);
 
   return (
-    <Container>
-      <h1>This is dev Name</h1>
-      <h3>Open PR Count: {pullsOpened.length}</h3>
-      <h3>Updated PR Count: {pullsUpdated.length}</h3>
-      <h3>Merged PR Count: {pullsMerged.length}</h3>
-      <h3>PR Comment Count: {pullsComments.length}</h3>
-      <h3>Open Issue Count: {issuesOpened.length}</h3>
-      <h3>Issue Comment Count: {issueComments.length}</h3>
-      <h3>Resolved Issue Count: {issueResolved.length}</h3>
-      <h3>Commit Created Count: {commitsCreated.length}</h3>
-      <h3>Commit Comment Count: {commitComments.length}</h3>
-    </Container>
+    <div>
+      <Grid container spacing={2} justify="center">
+        <Grid container item direction="column" spacing={2} sm={9}>
+          <Grid container item direction="row" spacing={2}>
+            <Grid item sm={3}>
+              <Paper style={{ height: "30vh", background: "red" }} />
+            </Grid>
+            <Grid item sm={3}>
+              <Paper style={{ height: "30vh", background: "red" }} />
+            </Grid>
+            <Grid item sm={3}>
+              <Paper style={{ height: "30vh", background: "red" }} />
+            </Grid>
+            <Grid item sm={3}>
+              <Paper style={{ height: "30vh", background: "red" }} />
+            </Grid>
+          </Grid>
+
+          <Grid container item direction="row" spacing={2}>
+            <Grid item sm={6}>
+              <Paper style={{ height: "60vh", background: "purple" }} />
+            </Grid>
+            <Grid item sm={6}>
+              <Paper style={{ height: "60vh", background: "purple" }} />
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid item container direction="column" sm={3} spacing={2}>
+          <Grid item>
+            <Paper style={{ height: "45vh", background: "orange" }} />
+          </Grid>
+          <Grid item>
+            <Paper style={{ height: "45vh", background: "green" }} />
+          </Grid>
+        </Grid>
+      </Grid>
+    </div>
   );
 };
 
