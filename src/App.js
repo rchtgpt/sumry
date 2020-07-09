@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import AuthForm from './AuthForm';
 import Dashboard from './Dashboard';
 import About from './About';
-import DevReport from './DevReport';
 import { Router } from '@reach/router';
 import { AppBar, Button, Typography, Toolbar, classes, IconButton, MenuIcon } from '@material-ui/core';
 
