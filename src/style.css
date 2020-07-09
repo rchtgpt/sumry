@@ -20,8 +20,8 @@
 }
 
 .aboutCard {
-	margin-top: 1rem;
-	margin-bottom: 1rem;
+	margin-top: 7rem;
+	margin-bottom: 2.5rem;
 }
 
 .yt-video {
@@ -34,4 +34,24 @@
 	padding: 2em;
 	margin: 10rem;
 	border-width: 2px;
+}
+
+.dashLayout {
+	margin: 1.5em;
+}
+
+.topStats {
+	margin-top: 2em;
+	text-align: center;
+}
+
+.reportOverview {
+	margin-top: 2.4em;
+	margin-left: 1em;
+	text-decoration: underline;
+}
+
+.avatar {
+	margin-top: 5em;
+	margin-right: 5em;
 }
