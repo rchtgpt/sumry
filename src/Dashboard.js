@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import Axios from 'axios';
-import { Grid, Paper, Card, CardHeader, Typography, CardMedia } from '@material-ui/core';
-import { Col, Row, Image } from 'react-bootstrap';
-import { PieChart, Pie, Tooltip } from 'recharts';
+import React, { useEffect, useState } from "react";
+import Axios from "axios";
+import {
+  Grid,
+  Paper,
+  Card,
+  CardHeader,
+  Typography,
+  CardMedia,
+} from "@material-ui/core";
+import { Col, Row, Image } from "react-bootstrap";
+import { PieChart, Pie, Tooltip } from "recharts";
 
 const Dashboard = (props) => {
   const [users, setUsers] = useState([]);
@@ -384,28 +391,30 @@ const Dashboard = (props) => {
             </Grid>
           </Grid>
 
-					<Grid item container direction="column" sm={3} spacing={2}>
-						<Grid item>
-							<Card style={{ height: '45vh', background: 'orange' }}>
-								<Col>
-									<CardHeader title="Developers" subheader="September 14, 2016" />
-									<Card className="devNames">
-										<Typography>Chirag Gupta</Typography>
-									</Card>
-									<Card className="devNames">
-										<Typography>Rachit Gupta</Typography>
-									</Card>
-								</Col>
-							</Card>
-						</Grid>
-						<Grid item>
-							<Paper style={{ height: '45vh', background: 'green' }} />
-						</Grid>
-					</Grid>
-				</Grid>
-			</div>
-		</div>
-	);
+          <Grid item container direction="column" sm={3} spacing={2}>
+            <Grid item>
+              <Card style={{ height: "45vh", background: "orange" }}>
+                <Col>
+                  <CardHeader
+                    title="Developers"
+                    subheader="September 14, 2016"
+                  />
+                  {users.map((user) => (
+                    <Card key={user.id} className="devNames">
+                      <Typography>{user.name}</Typography>
+                    </Card>
+                  ))}
+                </Col>
+              </Card>
+            </Grid>
+            <Grid item>
+              <Paper style={{ height: "45vh", background: "green" }} />
+            </Grid>
+          </Grid>
+        </Grid>
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;
