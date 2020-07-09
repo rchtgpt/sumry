@@ -101,6 +101,7 @@ const DevReport = (props) => {
                     pull_link: comment.pullrequest.links.html.href,
                     comment: comment.content.raw,
                     pull_id: comment.pullrequest.id,
+                    id: comment.id,
                   },
                 ]);
               }
@@ -153,6 +154,7 @@ const DevReport = (props) => {
                     issue_title: comment.issue.title,
                     comment: comment.content.raw,
                     issue_id: comment.issue.id,
+                    id: comment.id,
                   },
                 ]);
               }
@@ -174,15 +176,85 @@ const DevReport = (props) => {
       }
     ).then((response) => {
       response.data.values.map((issue) => {
-        setIssueResolved((oldIssueResolved) => [
-          ...oldIssueResolved,
-          {
-            id: issue.id,
-            title: issue.title,
-            link: issue.links.html.href,
-            type: issue.kind,
-          },
-        ]);
+        if (issue.reporter.uuid === props.location.state.id) {
+          setIssueResolved((oldIssueResolved) => [
+            ...oldIssueResolved,
+            {
+              id: issue.id,
+              title: issue.title,
+              link: issue.links.html.href,
+              type: issue.kind,
+            },
+          ]);
+        }
+      });
+    });
+  };
+
+  const getCommitsCreated = async () => { 
+    await Axios.get(
+      `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/commits`,
+      {
+        auth: {
+          username: props.location.state.username,
+          password: props.location.state.password,
+        },
+      }
+    ).then((response) => {
+      response.data.values.map((commit) => {
+        if (
+          commit.date >= start.toISOString() &&
+          commit.author.user.uuid === props.location.state.id
+        ) {
+          setCommitsCreated((oldCommitsCreated) => [
+            ...oldCommitsCreated,
+            {
+              title: commit.summary.raw,
+              link: commit.links.html.href,
+            },
+          ]);
+     /**      Axios.get(
+            `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/commit/${commit.hash}/statuses/build`,
+            {
+              auth: {
+                username: props.location.state.username,
+                password: props.location.state.password,
+              },
+            }
+          ).then((response) => {
+            console.log(response.data);
+          }); */
+        }
+        if (
+          commit.author.user !== undefined &&
+          commit.author.user.uuid !== props.location.state.id
+        ) {
+          Axios.get(
+            `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/commit/${commit.hash}/comments`,
+            {
+              auth: {
+                username: props.location.state.username,
+                password: props.location.state.password,
+              },
+            }
+          ).then((response) => {
+            response.data.values.map((comment) => {
+              if (
+                comment.user.uuid === props.location.state.id &&
+                comment.created_on >= start.toISOString()
+              ) {
+                setCommitComments((oldCommitComments) => [
+                  ...oldCommitComments,
+                  {
+                    link: comment.links.html.href,
+                    comment: comment.content.raw,
+                    id: comment.id,
+                  },
+                ]);
+              }
+            });
+          });
+        }
       });
     });
   };
@@ -192,6 +264,7 @@ const DevReport = (props) => {
     getUpdatedPulls();
     getOpenedIssues();
     getUpdatedIssues();
+    getCommitsCreated();
   }, []);
 
   return (
@@ -204,6 +277,8 @@ const DevReport = (props) => {
       <h3>Open Issue Count: {issuesOpened.length}</h3>
       <h3>Issue Comment Count: {issueComments.length}</h3>
       <h3>Resolved Issue Count: {issueResolved.length}</h3>
+      <h3>Commit Created Count: {commitsCreated.length}</h3>
+      <h3>Commit Comment Count: {commitComments.length}</h3>
     </Container>
   );
 };
