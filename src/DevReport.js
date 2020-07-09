@@ -1,51 +1,51 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Card, Col, Image, CardColumns, Row } from 'react-bootstrap';
-import Axios from 'axios';
-import { PieChart, Pie, Tooltip, Cell } from 'recharts';
+import React, { useEffect, useState } from "react";
+import Axios from "axios";
+import { PieChart, Pie, Tooltip, Cell } from "recharts";
 
 const DevReport = (props) => {
-	const start = new Date();
-	start.setHours(0, 0, 0, 0);
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
 
-	var end = new Date();
-	end.setHours(23, 59, 59, 999);
+  var end = new Date();
+  end.setHours(23, 59, 59, 999);
 
-	const [ pullsOpened, setPullsOpened ] = useState([]);
-	const [ pullsMerged, setPullsMerged ] = useState([]);
-	const [ pullsComments, setPullsComments ] = useState([]);
-	const [ pullsUpdated, setPullsUpdated ] = useState([]);
+  const [pullsOpened, setPullsOpened] = useState([]);
+  const [pullsMerged, setPullsMerged] = useState([]);
+  const [pullsComments, setPullsComments] = useState([]);
+  const [pullsUpdated, setPullsUpdated] = useState([]);
 
-	const [ issuesOpened, setIssuesOpened ] = useState([]);
-	const [ issueComments, setIssueComments ] = useState([]);
-	const [ issueResolved, setIssueResolved ] = useState([]);
+  const [issuesOpened, setIssuesOpened] = useState([]);
+  const [issueComments, setIssueComments] = useState([]);
+  const [issueResolved, setIssueResolved] = useState([]);
 
-	const [ commitsCreated, setCommitsCreated ] = useState([]);
-	const [ commitComments, setCommitComments ] = useState([]);
-	const [ commitBuildStatus, setCommitBuildStatus ] = useState([]);
+  const [commitsCreated, setCommitsCreated] = useState([]);
+  const [commitComments, setCommitComments] = useState([]);
+  const [commitBuildStatus, setCommitBuildStatus] = useState([]);
 
-	const getOpenPulls = async () => {
-		await Axios.get(
-			`https://api.bitbucket.org/2.0/pullrequests/${props.location.state
-				.id}?q=(created_on>=${start.toISOString()} AND created_on<=${end.toISOString()})`,
-			{
-				auth: {
-					username: props.location.state.username,
-					password: props.location.state.password
-				}
-			}
-		).then((response) => {
-			// Get PRs which are created by the dev today
-			response.data.values.map((pull) => {
-				setPullsOpened((oldPullsOpened) => [
-					...oldPullsOpened,
-					{
-						title: pull.title,
-						link: pull.links.html.href
-					}
-				]);
-			});
-		});
-	};
+  const getOpenPulls = async () => {
+    await Axios.get(
+      `https://api.bitbucket.org/2.0/pullrequests/${
+        props.location.state.id
+      }?q=(created_on>=${start.toISOString()} AND created_on<=${end.toISOString()})`,
+      {
+        auth: {
+          username: props.location.state.username,
+          password: props.location.state.password,
+        },
+      }
+    ).then((response) => {
+      // Get PRs which are created by the dev today
+      response.data.values.map((pull) => {
+        setPullsOpened((oldPullsOpened) => [
+          ...oldPullsOpened,
+          {
+            title: pull.title,
+            link: pull.links.html.href,
+          },
+        ]);
+      });
+    });
+  };
 
   const getUpdatedPulls = async () => {
     await Axios.get(
@@ -191,7 +191,7 @@ const DevReport = (props) => {
     });
   };
 
-  const getCommitsCreated = async () => { 
+  const getCommitsCreated = async () => {
     await Axios.get(
       `https://api.bitbucket.org/2.0/repositories/hmg65/sia-lounge-backend/commits`,
       {
@@ -213,7 +213,7 @@ const DevReport = (props) => {
               link: commit.links.html.href,
             },
           ]);
-     /**      Axios.get(
+          /**      Axios.get(
             `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/commit/${commit.hash}/statuses/build`,
             {
               auth: {
@@ -268,7 +268,7 @@ const DevReport = (props) => {
   }, []);
 
   return (
-    <Container>
+    <div>
       <h1>This is dev Name</h1>
       <h3>Open PR Count: {pullsOpened.length}</h3>
       <h3>Updated PR Count: {pullsUpdated.length}</h3>
@@ -279,7 +279,7 @@ const DevReport = (props) => {
       <h3>Resolved Issue Count: {issueResolved.length}</h3>
       <h3>Commit Created Count: {commitsCreated.length}</h3>
       <h3>Commit Comment Count: {commitComments.length}</h3>
-    </Container>
+    </div>
   );
 };
 

@@ -1,9 +1,9 @@
-import React from 'react';
-import { Container, Card, Col, Row, CardColumns } from 'react-bootstrap';
-import ReactPlayer from 'react-player';
+import React from "react";
+import ReactPlayer from "react-player";
 
 const About = () => {
-	return (
+  return {
+    /*
 		<Container fluid="md">
 			<Card style={{}} classname="mt-5">
 				<Col>
@@ -77,8 +77,8 @@ const About = () => {
 					</Card.Body>
 				</Col>
 			</Card>
-		</Container>
-	);
+		</Container>*/
+  };
 };
 
 export default About;

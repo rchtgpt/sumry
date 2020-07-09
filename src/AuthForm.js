@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import { Form, Button, Alert, Container } from 'react-bootstrap';
-import Axios from 'axios';
-import { navigate } from '@reach/router';
+import React, { useState } from "react";
+import Axios from "axios";
+import { navigate } from "@reach/router";
 
 const AuthForm = () => {
-	const [ loginError, setLoginError ] = useState(false);
+  const [loginError, setLoginError] = useState(false);
 
-	return (
-		<Container classname="justify-content-center">
+  return {
+    /*<div classname="justify-content-center">
 			{loginError ? (
 				<Alert variant="danger" dismissible>
 					Either username or password is incorrect!
@@ -58,8 +57,8 @@ const AuthForm = () => {
 					Submit
 				</Button>
 			</Form>
-		</Container>
-	);
+			</div> */
+  };
 };
 
 export default AuthForm;

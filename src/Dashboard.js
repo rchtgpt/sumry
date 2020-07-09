@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Container, CardColumns } from 'react-bootstrap';
-import Axios from 'axios';
-import { navigate } from '@reach/router';
+import React, { useEffect, useState } from "react";
+import Axios from "axios";
+import { navigate } from "@reach/router";
 
 const Dashboard = (props) => {
   const [users, setUsers] = useState([]);
@@ -26,14 +25,14 @@ const Dashboard = (props) => {
     });
   };
 
-	useEffect(() => {
-		getUsers();
-	}, []);
-	return (
-		<Container>
-			<CardColumns>
-				{users.map((user) => (
-					<Card
+  useEffect(() => {
+    getUsers();
+  }, []);
+  return (
+    <div>
+      <div>
+        {users.map((user) => ({
+          /*<Card
 						key={user.id}
 						tag="a"
 						onClick={() => {
@@ -50,11 +49,11 @@ const Dashboard = (props) => {
 					>
 						<Card.Img variant="top" src={user.img_link} />
 						<Card.Title>{user.name}</Card.Title>
-					</Card>
-				))}
-			</CardColumns>
-		</Container>
-	);
+					</Card> */
+        }))}
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;
