@@ -30,8 +30,8 @@ const App = () => {
         </Toolbar>
       </AppBar>
       <Router>
-        <AuthForm path="/" />
-        <Dashboard path="/dashboard" />
+        <AuthForm path="/login" />
+        <Dashboard path="/" />
         <About path="/about" />
         <DevReport path="/report/:id" />
       </Router>
