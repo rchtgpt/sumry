@@ -9,13 +9,13 @@ import { AppBar, Button, Toolbar, img } from '@material-ui/core';
 const App = () => {
 	return (
 		<React.StrictMode>
-			<AppBar position="fixed">
+			<AppBar position="fixed" color="#0054cf">
 				<Toolbar>
 					<div className="appBar">
 						<Button color="inherit" className="SumryLogo">
 							<img
 								alt=""
-								src="https://user-images.githubusercontent.com/44428198/87041819-6a7c0780-c210-11ea-906e-8d2bd685d43d.png"
+								src="https://user-images.githubusercontent.com/44428198/87115326-83c49880-c290-11ea-8537-b8a305428172.png"
 								width="40"
 							/>
 						</Button>
