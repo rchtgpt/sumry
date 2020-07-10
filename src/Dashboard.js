@@ -300,7 +300,6 @@ const Dashboard = (props) => {
   ];
 
   useEffect(() => {
-    console.log(users);
     if (users.length === 0) {
       getUsers();
     } else {
@@ -528,11 +527,11 @@ const Dashboard = (props) => {
                     subheader="September 14, 2016"
                   />
                   {users.map((user) => (
-                    <Card variant="outlined" key={user.id} className="devNames">
+                    <Card variant="outlined" key={user.id} className="devNames" onClick={() => setCurrentUser(user)}>
                       <Typography>{user.name}</Typography>
                     </Card>
                   ))}
-                </Col>
+                </Col>  
               </Card>
             </Grid>
             <Grid item>

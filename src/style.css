@@ -59,4 +59,5 @@
 .devNames {
 	margin-top: 5;
 	padding: 7;
+	cursor: "pointer";
 }
