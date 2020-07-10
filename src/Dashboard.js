@@ -506,9 +506,15 @@ const Dashboard = (props) => {
 											<Table size="small" aria-label="a dense table">
 												<TableHead>
 													<TableRow>
-														<TableCell className="tableHeader">Sr. no.</TableCell>
-														<TableCell className="tableHeader">Title</TableCell>
-														<TableCell className="tableHeader">Status</TableCell>
+														<TableCell className="tableHeader">
+															<b>Sr. no.</b>
+														</TableCell>
+														<TableCell className="tableHeader">
+															<b>Title</b>
+														</TableCell>
+														<TableCell className="tableHeader">
+															<b>Status</b>
+														</TableCell>
 													</TableRow>
 												</TableHead>
 												<TableBody>
