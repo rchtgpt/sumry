@@ -59,6 +59,7 @@ html {
 .avatar {
 	margin-top: 5em;
 	margin-right: 5em;
+	border: 2px solid #0052cc;
 }
 
 .devNames {
