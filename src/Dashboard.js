@@ -33,6 +33,13 @@ const Dashboard = (props) => {
   const [commitsCreated, setCommitsCreated] = useState([]);
   const [commitComments, setCommitComments] = useState([]);
 
+  const [colors, setColors] = useState([
+    "#E0E0E2",
+    "#FFFFFF",
+    "#FFFFFF",
+    "#FFFFFF",
+  ]);
+
   const getOpenPulls = async () => {
     await Axios.get(
       `https://api.bitbucket.org/2.0/pullrequests/${
@@ -305,6 +312,30 @@ const Dashboard = (props) => {
     }
   }, [currentUser]);
 
+  const handlePullClick = () => {
+    if (colors[0] !== "#E0E0E2") {
+      setColors(["#E0E0E2", "#FFFFFF", "#FFFFFF", "#FFFFFF"]);
+    }
+  };
+
+  const handleIssueClick = () => {
+    if (colors[1] !== "#E0E0E2") {
+      setColors(["#FFFFFF", "#E0E0E2", "#FFFFFF", "#FFFFFF"]);
+    }
+  };
+
+  const handleCommitClick = () => {
+    if (colors[2] !== "#E0E0E2") {
+      setColors(["#FFFFFF", "#FFFFFF", "#E0E0E2", "#FFFFFF"]);
+    }
+  };
+
+  const handleCommentClick = () => {
+    if (colors[3] !== "#E0E0E2") {
+      setColors(["#FFFFFF", "#FFFFFF", "#FFFFFF", "#E0E0E2"]);
+    }
+  };
+
   return (
     <div>
       <Row>
@@ -327,8 +358,13 @@ const Dashboard = (props) => {
             <Grid container item direction="row" spacing={2}>
               <Grid item sm={3}>
                 <Card
-                  style={{ height: "30vh", background: "#FFFFFF" }}
+                  style={{
+                    height: "30vh",
+                    background: colors[0],
+                    cursor: "pointer",
+                  }}
                   variant="outlined"
+                  onClick={handlePullClick}
                 >
                   <div className="topStats">
                     <h1>{pullsOpened.length}</h1>
@@ -337,21 +373,19 @@ const Dashboard = (props) => {
                       width="2em"
                       height="2em"
                       viewBox="0 0 16 16"
-                      class="bi bi-box-arrow-in-up"
-                      fill="#2E3B55"
+                      className="bi bi-file-earmark-diff"
+                      fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
                     >
+                      <path d="M4 1h5v1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V6h1v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z" />
+                      <path d="M9 4.5V1l5 5h-3.5A1.5 1.5 0 0 1 9 4.5z" />
                       <path
-                        fill-rule="evenodd"
-                        d="M4.646 7.854a.5.5 0 0 0 .708 0L8 5.207l2.646 2.647a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 0 0 0 .708z"
+                        fillRule="evenodd"
+                        d="M5.5 11.5A.5.5 0 0 1 6 11h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5zM8 5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0v-4A.5.5 0 0 1 8 5z"
                       />
                       <path
-                        fill-rule="evenodd"
-                        d="M8 15a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-1 0v9a.5.5 0 0 0 .5.5z"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        d="M1.5 2.5A1.5 1.5 0 0 1 3 1h10a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 13 12h-1.5a.5.5 0 0 1 0-1H13a.5.5 0 0 0 .5-.5v-8A.5.5 0 0 0 13 2H3a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h1.5a.5.5 0 0 1 0 1H3a1.5 1.5 0 0 1-1.5-1.5v-8z"
+                        fillRule="evenodd"
+                        d="M5.5 7.5A.5.5 0 0 1 6 7h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z"
                       />
                     </svg>
                   </div>
@@ -359,8 +393,13 @@ const Dashboard = (props) => {
               </Grid>
               <Grid item sm={3}>
                 <Card
-                  style={{ height: "30vh", background: "#FFFFFF" }}
+                  style={{
+                    height: "30vh",
+                    background: colors[1],
+                    cursor: "pointer",
+                  }}
                   variant="outlined"
+                  onClick={handleIssueClick}
                 >
                   <div className="topStats">
                     <h1>{issuesOpened.length}</h1>
@@ -369,30 +408,28 @@ const Dashboard = (props) => {
                       width="2em"
                       height="2em"
                       viewBox="0 0 16 16"
-                      class="bi bi-box-arrow-in-down"
-                      fill="#2E3B55"
+                      className="bi bi-exclamation-circle"
+                      fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        fill-rule="evenodd"
-                        d="M4.646 8.146a.5.5 0 0 1 .708 0L8 10.793l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"
+                        fillRule="evenodd"
+                        d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
                       />
-                      <path
-                        fill-rule="evenodd"
-                        d="M8 1a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0v-9A.5.5 0 0 1 8 1z"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        d="M1.5 13.5A1.5 1.5 0 0 0 3 15h10a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 13 4h-1.5a.5.5 0 0 0 0 1H13a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5v-8A.5.5 0 0 1 3 5h1.5a.5.5 0 0 0 0-1H3a1.5 1.5 0 0 0-1.5 1.5v8z"
-                      />
+                      <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
                     </svg>
                   </div>
                 </Card>
               </Grid>
               <Grid item sm={3}>
                 <Card
-                  style={{ height: "30vh", background: "#FFFFFF" }}
+                  style={{
+                    height: "30vh",
+                    background: colors[2],
+                    cursor: "pointer",
+                  }}
                   variant="outlined"
+                  onClick={handleCommitClick}
                 >
                   <div className="topStats">
                     <h1>{commitsCreated.length}</h1>
@@ -401,12 +438,12 @@ const Dashboard = (props) => {
                       width="2em"
                       height="2em"
                       viewBox="0 0 16 16"
-                      class="bi bi-code-slash"
+                      className="bi bi-code-slash"
                       fill="#2E3B55"
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0zm-.999-3.124a.5.5 0 0 1 .33.625l-4 13a.5.5 0 0 1-.955-.294l4-13a.5.5 0 0 1 .625-.33z"
                       />
                     </svg>
@@ -415,8 +452,13 @@ const Dashboard = (props) => {
               </Grid>
               <Grid item sm={3}>
                 <Card
-                  style={{ height: "30vh", background: "#FFFFFF" }}
+                  style={{
+                    height: "30vh",
+                    background: colors[3],
+                    cursor: "pointer",
+                  }}
                   variant="outlined"
+                  onClick={handleCommentClick}
                 >
                   <div className="topStats">
                     <h1>
@@ -429,16 +471,16 @@ const Dashboard = (props) => {
                       width="2em"
                       height="2em"
                       viewBox="0 0 16 16"
-                      class="bi bi-chat-left-text"
+                      className="bi bi-chat-left-text"
                       fill="#2E3B55"
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M14 1H2a1 1 0 0 0-1 1v11.586l2-2A2 2 0 0 1 4.414 11H14a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
                       />
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"
                       />
                     </svg>
