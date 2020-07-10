@@ -59,5 +59,14 @@
 .devNames {
 	margin-top: 5;
 	padding: 7;
-	cursor: "pointer";
+	cursor: pointer;
+}
+
+.cardHeader {
+	background-color: #2e3b55;
+	color: #fff;
+}
+
+.tableHeader {
+	font-weight: bold;
 }
