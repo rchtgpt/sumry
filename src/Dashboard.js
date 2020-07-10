@@ -40,7 +40,9 @@ const Dashboard = (props) => {
 	const [ commitsCreated, setCommitsCreated ] = useState([]);
 	const [ commitComments, setCommitComments ] = useState([]);
 
-	const [ colors, setColors ] = useState([ '#E0E0E2', '#FFFFFF', '#FFFFFF', '#FFFFFF' ]);
+  const lightGray = '#CDD5D1';
+  const white = '#FFFFFF';
+	const [ colors, setColors ] = useState([ lightGray, white, white, white ]);
 
 	const getOpenPulls = async () => {
 		await Axios.get(
@@ -314,26 +316,26 @@ const Dashboard = (props) => {
 	);
 
 	const handlePullClick = () => {
-		if (colors[0] !== '#E0E0E2') {
-			setColors([ '#E0E0E2', '#FFFFFF', '#FFFFFF', '#FFFFFF' ]);
+		if (colors[0] !== lightGray) {
+			setColors([ lightGray, white, white, white ]);
 		}
 	};
 
 	const handleIssueClick = () => {
-		if (colors[1] !== '#E0E0E2') {
-			setColors([ '#FFFFFF', '#E0E0E2', '#FFFFFF', '#FFFFFF' ]);
+		if (colors[1] !== lightGray) {
+			setColors([ white, lightGray, white, white ]);
 		}
 	};
 
 	const handleCommitClick = () => {
-		if (colors[2] !== '#E0E0E2') {
-			setColors([ '#FFFFFF', '#FFFFFF', '#E0E0E2', '#FFFFFF' ]);
+		if (colors[2] !== lightGray) {
+			setColors([ white, white, lightGray, white ]);
 		}
 	};
 
 	const handleCommentClick = () => {
-		if (colors[3] !== '#E0E0E2') {
-			setColors([ '#FFFFFF', '#FFFFFF', '#FFFFFF', '#E0E0E2' ]);
+		if (colors[3] !== lightGray) {
+			setColors([ white, white, white, lightGray ]);
 		}
 	};
 
