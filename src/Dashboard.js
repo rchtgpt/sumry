@@ -369,7 +369,7 @@ const Dashboard = (props) => {
 											height="2em"
 											viewBox="0 0 16 16"
 											className="bi bi-file-earmark-diff"
-											fill="currentColor"
+											fill="#0052cc"
 											xmlns="http://www.w3.org/2000/svg"
 										>
 											<path d="M4 1h5v1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V6h1v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z" />
@@ -404,7 +404,7 @@ const Dashboard = (props) => {
 											height="2em"
 											viewBox="0 0 16 16"
 											className="bi bi-exclamation-circle"
-											fill="currentColor"
+											fill="#0052cc"
 											xmlns="http://www.w3.org/2000/svg"
 										>
 											<path
@@ -434,7 +434,7 @@ const Dashboard = (props) => {
 											height="2em"
 											viewBox="0 0 16 16"
 											className="bi bi-code-slash"
-											fill="#2E3B55"
+											fill="#0052cc"
 											xmlns="http://www.w3.org/2000/svg"
 										>
 											<path
@@ -463,7 +463,7 @@ const Dashboard = (props) => {
 											height="2em"
 											viewBox="0 0 16 16"
 											className="bi bi-chat-left-text"
-											fill="#2E3B55"
+											fill="#0052cc"
 											xmlns="http://www.w3.org/2000/svg"
 										>
 											<path
