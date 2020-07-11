@@ -15,6 +15,13 @@ html {
 	margin: 0.5rem;
 }
 
+.listCard {
+	padding: 0.5em;
+	margin: 0.5em;
+	width: 560px;
+	height: 60px;
+}
+
 .aboutCard {
 	margin-top: 7rem;
 	margin-bottom: 2.5rem;

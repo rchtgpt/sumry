@@ -7,16 +7,11 @@ import {
   CardHeader,
   Typography,
   CardContent,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
 } from "@material-ui/core";
 import { Col, Row, Image } from "react-bootstrap";
 import { PieChart, Pie, Tooltip, RadialBarChart, RadialBar } from "recharts";
 import { navigate } from "@reach/router";
+import ListCard from "./ListCard";
 
 const Dashboard = (props) => {
   const [users, setUsers] = useState([]);
@@ -40,10 +35,11 @@ const Dashboard = (props) => {
   const [commitsCreated, setCommitsCreated] = useState([]);
   const [commitComments, setCommitComments] = useState([]);
 
-  const lightGray = "#CDD5D1";
+  const lightGray = "#D4E0ED";
   const white = "#FFFFFF";
   const [colors, setColors] = useState([lightGray, white, white, white]);
   const [devColors, setDevColors] = useState([]);
+  const [title, setTitle] = useState("Pull Requests");
 
   const getOpenPulls = async () => {
     await Axios.get(
@@ -309,23 +305,6 @@ const Dashboard = (props) => {
     { name: "Group F", value: 189 },
   ];
 
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-
-  const rows = [
-    createData(1, "Fix: Hover over cards", "Open"),
-    createData(2, "Fix: Hover over cards", "Open"),
-    createData(3, "Fix: Hover over cards", "Open"),
-    createData(4, "Fix: Hover over cards", "Open"),
-    createData(5, "Fix: Hover over cards", "Open"),
-    createData(6, "Fix: Hover over cards", "Open"),
-    createData(7, "Fix: Hover over cards", "Open"),
-    createData(8, "Fix: Hover over cards", "Open"),
-    createData(9, "Fix: Hover over cards", "Open"),
-    createData(10, "Fix: Hover over cards", "Open"),
-  ];
-
   useEffect(() => {
     if (props.location.state === null) {
       navigate("/login");
@@ -354,25 +333,29 @@ const Dashboard = (props) => {
 
   const handlePullClick = () => {
     if (colors[0] !== lightGray) {
-      setColors([lightGray, white, white, white]);
+	  setColors([lightGray, white, white, white]);
+	  setTitle("Pull Requests");
     }
   };
 
   const handleIssueClick = () => {
     if (colors[1] !== lightGray) {
-      setColors([white, lightGray, white, white]);
+	  setColors([white, lightGray, white, white]);
+	  setTitle("Issues");
     }
   };
 
   const handleCommitClick = () => {
     if (colors[2] !== lightGray) {
-      setColors([white, white, lightGray, white]);
+	  setColors([white, white, lightGray, white]);
+	  setTitle("Commits");
     }
   };
 
   const handleCommentClick = () => {
     if (colors[3] !== lightGray) {
-      setColors([white, white, white, lightGray]);
+	  setColors([white, white, white, lightGray]);
+	  setTitle("Comments");
     }
   };
 
@@ -567,38 +550,8 @@ const Dashboard = (props) => {
               </Grid>
               <Grid item sm={6}>
                 <Card style={{ height: "60vh" }} variant="outlined">
-                  <CardHeader title="Pull Requests" className="cardHeader" />
+                  <CardHeader title={title} className="cardHeader" />
                   <CardContent>
-                    <TableContainer component={Paper}>
-                      <Table size="small" aria-label="a dense table">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell className="tableHeader">
-                              <b>Sr. no.</b>
-                            </TableCell>
-                            <TableCell className="tableHeader">
-                              <b>Title</b>
-                            </TableCell>
-                            <TableCell className="tableHeader">
-                              <b>Status</b>
-                            </TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {rows.map((row) => (
-                            <TableRow key={row.name}>
-                              <TableCell component="th" scope="row">
-                                {row.name}
-                              </TableCell>
-                              <TableCell>{row.calories}</TableCell>
-                              <TableCell>{row.fat}</TableCell>
-                              <TableCell>{row.carbs}</TableCell>
-                              <TableCell>{row.protein}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
                   </CardContent>
                 </Card>
               </Grid>
