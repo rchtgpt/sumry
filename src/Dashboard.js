@@ -16,7 +16,7 @@ import {
 	TablePagination
 } from '@material-ui/core';
 import { Col, Row, Image } from 'react-bootstrap';
-import { PieChart, Pie, Tooltip } from 'recharts';
+import { PieChart, Pie, Tooltip, RadialBarChart, RadialBar } from 'recharts';
 
 const Dashboard = (props) => {
 	const [ users, setUsers ] = useState([]);
@@ -40,12 +40,11 @@ const Dashboard = (props) => {
 	const [ commitsCreated, setCommitsCreated ] = useState([]);
 	const [ commitComments, setCommitComments ] = useState([]);
 
-  const lightGray = '#CDD5D1';
-  const white = '#FFFFFF';
+	const lightGray = '#CDD5D1';
+	const white = '#FFFFFF';
 	const [ colors, setColors ] = useState([ lightGray, white, white, white ]);
 
 	const getOpenPulls = async () => {
-		setPullsOpened([]);
 		await Axios.get(
 			`https://api.bitbucket.org/2.0/pullrequests/${currentUser.id}?q=(created_on>=${start.toISOString()} AND created_on<=${end.toISOString()})`,
 			{
@@ -69,9 +68,6 @@ const Dashboard = (props) => {
 	};
 
 	const getUpdatedPulls = async () => {
-		setPullsMerged([]);
-		setPullsUpdated([]);
-		setPullsComments([]);
 		await Axios.get(
 			`https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/pullrequests?q=(updated_on>=${start.toISOString()} AND updated_on<=${end.toISOString()})`,
 			{
@@ -134,8 +130,6 @@ const Dashboard = (props) => {
 	};
 
 	const getOpenedIssues = async () => {
-		setIssuesOpened([]);
-		setIssueComments([]);
 		await Axios.get(
 			`https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/issues?q=(created_on>=${start.toISOString()} AND created_on<=${end.toISOString()})`,
 			{
@@ -186,7 +180,6 @@ const Dashboard = (props) => {
 	};
 
 	const getUpdatedIssues = async () => {
-		setIssueResolved([]);
 		await Axios.get(
 			`https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/issues?q=(updated_on>=${start.toISOString()} AND updated_on<=${end.toISOString()}) AND state="resolved"`,
 			{
@@ -213,8 +206,6 @@ const Dashboard = (props) => {
 	};
 
 	const getCommitsCreated = async () => {
-		setCommitsCreated([]);
-		setCommitComments([]);
 		await Axios.get(`https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/commits`, {
 			auth: {
 				username: props.location.state.username,
@@ -321,7 +312,7 @@ const Dashboard = (props) => {
 				getCommitsCreated();
 			}
 		},
-		[currentUser]
+		[ currentUser ]
 	);
 
 	const handlePullClick = () => {
@@ -347,6 +338,21 @@ const Dashboard = (props) => {
 			setColors([ white, white, white, lightGray ]);
 		}
 	};
+
+	const projectStats = [
+		{
+			name: '18-24',
+			uv: 31.47,
+			pv: 2400,
+			fill: '#8884d8'
+		},
+		{
+			name: '25-29',
+			uv: 26.69,
+			pv: 4567,
+			fill: '#0052CC'
+		}
+	];
 
 	return (
 		<div>
@@ -551,9 +557,9 @@ const Dashboard = (props) => {
 
 					<Grid item container direction="column" sm={3} spacing={2}>
 						<Grid item>
-							<Card style={{ height: '45vh', background: 'orange' }} variant="outlined">
+							<Card style={{ height: '45vh', background: '#0052CC' }} variant="outlined">
 								<Col>
-									<CardHeader title="Developers" subheader="September 14, 2016" />
+									<CardHeader title="Developers" className="devListHeader" />
 									{users.map((user) => (
 										<Card
 											variant="outlined"
@@ -568,7 +574,31 @@ const Dashboard = (props) => {
 							</Card>
 						</Grid>
 						<Grid item>
-							<Paper style={{ height: '45vh', background: 'green' }} />
+							<Card style={{ height: '45vh', background: '#fffZ' }} variant="outlined">
+								<CardHeader title="Project Stats" className="cardHeader" />
+								<CardContent>
+									<RadialBarChart
+										className="projectStatPie"
+										width={250}
+										height={300}
+										cx={150}
+										cy={150}
+										innerRadius={20}
+										outerRadius={140}
+										barSize={10}
+										data={projectStats}
+									>
+										<RadialBar
+											minAngle={15}
+											label={{ position: 'insideStart', fill: '#fff' }}
+											background
+											clockWise
+											dataKey="uv"
+										/>
+									</RadialBarChart>
+									<p id="projectStatText">14/28 Pull Requests</p>
+								</CardContent>
+							</Card>
 						</Grid>
 					</Grid>
 				</Grid>
