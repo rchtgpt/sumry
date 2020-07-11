@@ -12,8 +12,7 @@ import {
 	TableCell,
 	TableContainer,
 	TableHead,
-	TableRow,
-	TablePagination
+	TableRow
 } from '@material-ui/core';
 import { Col, Row, Image } from 'react-bootstrap';
 import { PieChart, Pie, Tooltip, RadialBarChart, RadialBar } from 'recharts';
