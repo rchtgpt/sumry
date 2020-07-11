@@ -35,6 +35,8 @@ const Dashboard = (props) => {
   const [commitsCreated, setCommitsCreated] = useState([]);
   const [commitComments, setCommitComments] = useState([]);
 
+  const [linkList, setLinkList] = useState([]);
+
   const lightGray = "#D4E0ED";
   const white = "#FFFFFF";
   const [colors, setColors] = useState([lightGray, white, white, white]);
@@ -58,6 +60,7 @@ const Dashboard = (props) => {
         setPullsOpened((oldPullsOpened) => [
           ...oldPullsOpened,
           {
+            id: pull.id,
             title: pull.title,
             link: pull.links.html.href,
           },
@@ -83,6 +86,7 @@ const Dashboard = (props) => {
             setPullsMerged((oldPullsMerged) => [
               ...oldPullsMerged,
               {
+                id: pull.id,
                 title: pull.title,
                 link: pull.links.html.href,
               },
@@ -92,6 +96,7 @@ const Dashboard = (props) => {
               setPullsUpdated((oldPullsUpdated) => [
                 ...oldPullsUpdated,
                 {
+                  id: pull.id,
                   title: pull.title,
                   link: pull.links.html.href,
                 },
@@ -229,6 +234,7 @@ const Dashboard = (props) => {
             setCommitsCreated((oldCommitsCreated) => [
               ...oldCommitsCreated,
               {
+                id: commit.hash,
                 title: commit.summary.raw,
                 link: commit.links.html.href,
               },
@@ -320,41 +326,103 @@ const Dashboard = (props) => {
           } else {
             tempDevColors.push(white);
           }
-        }
+		}
         setDevColors(tempDevColors);
         getOpenPulls();
         getUpdatedPulls();
         getOpenedIssues();
         getUpdatedIssues();
-        getCommitsCreated();
+		getCommitsCreated();
+		preparePullLinkList();
       }
     }
   }, [currentUser]);
 
+  const preparePullLinkList = () => {
+	setLinkList([]);
+	const tempLinkList = [];
+	pullsOpened.forEach((pull) =>
+	  tempLinkList.push({
+		id: pull.id,
+		title: pull.title,
+		link: pull.link,
+		status: "created",
+	  })
+	);
+	pullsUpdated.forEach((pull) =>
+	  tempLinkList.push({
+		id: pull.id,
+		title: pull.title,
+		link: pull.link,
+		status: "updated",
+	  })
+	);
+	pullsMerged.forEach((pull) =>
+	  tempLinkList.push({
+		id: pull.id,
+		title: pull.title,
+		link: pull.link,
+		status: "merged",
+	  })
+	);
+	setLinkList(tempLinkList);
+  }
+
   const handlePullClick = () => {
     if (colors[0] !== lightGray) {
-	  setColors([lightGray, white, white, white]);
-	  setTitle("Pull Requests");
+      setColors([lightGray, white, white, white]);
+      setTitle("Pull Requests");
+      preparePullLinkList();
     }
   };
 
   const handleIssueClick = () => {
     if (colors[1] !== lightGray) {
-	  setColors([white, lightGray, white, white]);
-	  setTitle("Issues");
+      setColors([white, lightGray, white, white]);
+      setTitle("Issues");
+      setLinkList([]);
+      const tempLinkList = [];
+      issuesOpened.forEach((issue) =>
+        tempLinkList.push({
+          id: issue.id,
+          title: issue.title,
+          link: issue.link,
+          status: "created",
+        })
+      );
+      issueResolved.forEach((issue) =>
+        tempLinkList.push({
+          id: issue.id,
+          title: issue.title,
+          link: issue.link,
+          status: "resolved",
+        })
+      );
+      setLinkList(tempLinkList);
     }
   };
 
   const handleCommitClick = () => {
     if (colors[2] !== lightGray) {
-	  setColors([white, white, lightGray, white]);
-	  setTitle("Commits");
+      setColors([white, white, lightGray, white]);
+      setTitle("Commits");
+      setLinkList([]);
+      const tempLinkList = [];
+      commitsCreated.forEach((commit) =>
+        tempLinkList.push({
+          id: commit.id,
+          title: commit.title,
+          link: commit.link,
+          status: "created",
+        })
+      );
+      setLinkList(tempLinkList);
     }
   };
 
   const handleCommentClick = () => {
     if (colors[3] !== lightGray) {
-	  setColors([white, white, white, lightGray]);
+      setColors([white, white, white, lightGray]);
 	  setTitle("Comments");
     }
   };
@@ -551,8 +619,7 @@ const Dashboard = (props) => {
               <Grid item sm={6}>
                 <Card style={{ height: "60vh" }} variant="outlined">
                   <CardHeader title={title} className="cardHeader" />
-                  <CardContent>
-                  </CardContent>
+                  <CardContent></CardContent>
                 </Card>
               </Grid>
             </Grid>
