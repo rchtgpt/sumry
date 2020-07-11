@@ -43,6 +43,7 @@ const Dashboard = (props) => {
   const lightGray = "#CDD5D1";
   const white = "#FFFFFF";
   const [colors, setColors] = useState([lightGray, white, white, white]);
+  const [devColors, setDevColors] = useState([]);
 
   const getOpenPulls = async () => {
     await Axios.get(
@@ -271,6 +272,7 @@ const Dashboard = (props) => {
 
   const getUsers = async () => {
     const tempUsers = [];
+    const tempDevColors = [lightGray];
     await Axios.get(
       "https://api.bitbucket.org/2.0/workspaces/codetest0/members",
       {
@@ -291,7 +293,11 @@ const Dashboard = (props) => {
       }
     });
     setUsers(tempUsers);
-    setCurrentUser(tempUsers[1]);
+    setCurrentUser(tempUsers[0]);
+    for (var i = 0; i < tempUsers.length - 1; i++) {
+      tempDevColors.push(white);
+    }
+    setDevColors(tempDevColors);
   };
 
   const data = [
@@ -327,6 +333,16 @@ const Dashboard = (props) => {
       if (users.length === 0) {
         getUsers();
       } else {
+        setDevColors([]);
+        const tempDevColors = [];
+        for (var i = 0; i < users.length; i++) {
+          if (users.findIndex((user) => user === currentUser) === i) {
+            tempDevColors.push(lightGray);
+          } else {
+            tempDevColors.push(white);
+          }
+        }
+        setDevColors(tempDevColors);
         getOpenPulls();
         getUpdatedPulls();
         getOpenedIssues();
@@ -597,12 +613,13 @@ const Dashboard = (props) => {
               >
                 <Col>
                   <CardHeader title="Developers" className="devListHeader" />
-                  {users.map((user) => (
+                  {users.map((user, index) => (
                     <Card
                       variant="outlined"
                       key={user.id}
                       className="devNames"
                       onClick={() => setCurrentUser(user)}
+                      style={{ background: devColors[index] }}
                     >
                       <Typography>{user.name}</Typography>
                     </Card>
