@@ -342,9 +342,14 @@ const Dashboard = (props) => {
         getOpenedIssues();
         getUpdatedIssues();
         getCommitsCreated();
+        handlePullClick();
       }
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    preparePullLinkList();
+  }, [pullsOpened, pullsMerged, pullsUpdated]);
 
   const preparePullLinkList = () => {
     setLinkList([]);
@@ -376,6 +381,42 @@ const Dashboard = (props) => {
     setLinkList(tempLinkList);
   };
 
+  const prepareIssueLinkList = () => {
+    setLinkList([]);
+    const tempLinkList = [];
+    issuesOpened.forEach((issue) =>
+      tempLinkList.push({
+        id: issue.id,
+        title: issue.title,
+        link: issue.link,
+        status: "created",
+      })
+    );
+    issueResolved.forEach((issue) =>
+      tempLinkList.push({
+        id: issue.id,
+        title: issue.title,
+        link: issue.link,
+        status: "resolved",
+      })
+    );
+    setLinkList(tempLinkList);
+  };
+
+  const prepareCommitLinkList = () => {
+    setLinkList([]);
+    const tempLinkList = [];
+    commitsCreated.forEach((commit) =>
+      tempLinkList.push({
+        id: commit.id,
+        title: commit.title,
+        link: commit.link,
+        status: "created",
+      })
+    );
+    setLinkList(tempLinkList);
+  };
+
   const handlePullClick = () => {
     if (colors[0] !== lightGray) {
       setColors([lightGray, white, white, white]);
@@ -388,25 +429,7 @@ const Dashboard = (props) => {
     if (colors[1] !== lightGray) {
       setColors([white, lightGray, white, white]);
       setTitle("Issues");
-      setLinkList([]);
-      const tempLinkList = [];
-      issuesOpened.forEach((issue) =>
-        tempLinkList.push({
-          id: issue.id,
-          title: issue.title,
-          link: issue.link,
-          status: "created",
-        })
-      );
-      issueResolved.forEach((issue) =>
-        tempLinkList.push({
-          id: issue.id,
-          title: issue.title,
-          link: issue.link,
-          status: "resolved",
-        })
-      );
-      setLinkList(tempLinkList);
+      prepareIssueLinkList();
     }
   };
 
@@ -414,17 +437,7 @@ const Dashboard = (props) => {
     if (colors[2] !== lightGray) {
       setColors([white, white, lightGray, white]);
       setTitle("Commits");
-      setLinkList([]);
-      const tempLinkList = [];
-      commitsCreated.forEach((commit) =>
-        tempLinkList.push({
-          id: commit.id,
-          title: commit.title,
-          link: commit.link,
-          status: "created",
-        })
-      );
-      setLinkList(tempLinkList);
+      prepareCommitLinkList();
     }
   };
 
