@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, Typography } from "@material-ui/core";
 
-const ListCard = ({id, title, status}) => {
+const ListCard = ({id, title, status, link}) => {
     return (
-        <Card className="listCard">
+        <Card href={link} className="listCard">
             <Typography variant="h6">{id}</Typography>
             <Typography variant="h6">{title}</Typography>
             <Typography variant="h6">{status}</Typography>

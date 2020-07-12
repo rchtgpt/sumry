@@ -44,6 +44,7 @@ const Dashboard = (props) => {
   const [title, setTitle] = useState("Pull Requests");
 
   const getOpenPulls = async () => {
+    setPullsOpened([]);
     await Axios.get(
       `https://api.bitbucket.org/2.0/pullrequests/${
         currentUser.id
@@ -70,6 +71,9 @@ const Dashboard = (props) => {
   };
 
   const getUpdatedPulls = async () => {
+    setPullsMerged([]);
+    setPullsUpdated([]);
+    setPullsComments([]);
     await Axios.get(
       `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/pullrequests?q=(updated_on>=${start.toISOString()} AND updated_on<=${end.toISOString()})`,
       {
@@ -137,6 +141,8 @@ const Dashboard = (props) => {
   };
 
   const getOpenedIssues = async () => {
+    setIssuesOpened([]);
+    setIssueComments([]);
     await Axios.get(
       `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/issues?q=(created_on>=${start.toISOString()} AND created_on<=${end.toISOString()})`,
       {
@@ -190,6 +196,7 @@ const Dashboard = (props) => {
   };
 
   const getUpdatedIssues = async () => {
+    setIssueResolved([]);
     await Axios.get(
       `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/issues?q=(updated_on>=${start.toISOString()} AND updated_on<=${end.toISOString()}) AND state="resolved"`,
       {
@@ -216,6 +223,8 @@ const Dashboard = (props) => {
   };
 
   const getCommitsCreated = async () => {
+    setCommitsCreated([]);
+    setCommitComments([]);
     await Axios.get(
       `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/commits`,
       {
