@@ -13,10 +13,13 @@ import {
   PieChart,
   Pie,
   Tooltip,
-  RadialBarChart,
-  RadialBar,
   Legend,
   Cell,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  Radar,
+  PolarRadiusAxis,
 } from "recharts";
 import { navigate } from "@reach/router";
 import ListCard from "./ListCard";
@@ -35,13 +38,18 @@ const Dashboard = (props) => {
   const [pullsMerged, setPullsMerged] = useState([]);
   const [pullsComments, setPullsComments] = useState([]);
   const [pullsUpdated, setPullsUpdated] = useState([]);
+  const [totalPullsOpened, setTotalPullsOpened] = useState(0);
+  const [totalPullsMerged, setTotalPullsMerged] = useState(0);
 
   const [issuesOpened, setIssuesOpened] = useState([]);
   const [issueComments, setIssueComments] = useState([]);
   const [issueResolved, setIssueResolved] = useState([]);
+  const [totalIssuesOpened, setTotalIssuesOpened] = useState(0);
+  const [totalIssuesResolved, setTotalIssuesResolved] = useState(0);
 
   const [commitsCreated, setCommitsCreated] = useState([]);
   const [commitComments, setCommitComments] = useState([]);
+  const [totalCommitsCreated, setTotalCommitsCreated] = useState(0);
 
   const [linkList, setLinkList] = useState([]);
 
@@ -76,6 +84,17 @@ const Dashboard = (props) => {
           },
         ]);
       });
+      Axios.get(
+        `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/pullrequests?q=(created_on>=${start.toISOString()} AND created_on<=${end.toISOString()})`,
+        {
+          auth: {
+            username: props.location.state.username,
+            password: props.location.state.password,
+          },
+        }
+      ).then((response) => {
+        setTotalPullsOpened(response.data.values.filter((pull) => pull.status === "OPEN").length);
+      });
     });
   };
 
@@ -92,6 +111,7 @@ const Dashboard = (props) => {
         },
       }
     ).then((response) => {
+      setTotalPullsMerged(response.data.values.filter((pull) => pull.state === "MERGED").length);
       // Check each PR manually to check dev's comment
       response.data.values.map((pull) => {
         if (pull.author.uuid === currentUser.id) {
@@ -470,10 +490,29 @@ const Dashboard = (props) => {
 
   const projectStats = [
     {
-      name: "25-29",
-      uv: 26.69,
-      pv: 4567,
-      fill: "#0052CC",
+      subject: "Pull Requests Opened",
+      A: pullsOpened.length,
+      fullMark: totalPullsOpened,
+    },
+    {
+      subject: "Pull Requests Merged",
+      A: pullsMerged.length,
+      fullMark: totalPullsMerged,
+    },
+    {
+      subject: "Issues Opened",
+      A: 86,
+      fullMark: 150,
+    },
+    {
+      subject: "Issues Resolved",
+      A: 99,
+      fullMark: 150,
+    },
+    {
+      subject: "Commits Created",
+      A: 85,
+      fullMark: 150,
     },
   ];
 
@@ -710,30 +749,25 @@ const Dashboard = (props) => {
                 variant="outlined"
               >
                 <CardHeader title="Project Stats" className="cardHeader" />
-                <CardContent>
-                  <RadialBarChart
-                    className="projectStatPie"
-                    width={250}
-                    height={300}
-                    cx={150}
-                    cy={150}
-                    innerRadius={20}
-                    outerRadius={140}
-                    barSize={10}
-                    data={projectStats}
-                  >
-                    <RadialBar
-                      minAngle={15}
-                      label={{ position: "insideStart", fill: "#fff" }}
-                      background
-                      clockWise
-                      dataKey="uv"
-                    />
-                  </RadialBarChart>
-                  <p id="projectStatText">
-                    {pullsOpened.length}/28 Pull Requests Opened
-                  </p>
-                </CardContent>
+
+                <RadarChart
+                  outerRadius={90}
+                  width={700}
+                  height={250}
+                  data={projectStats}
+                >
+                  <PolarGrid />
+                  <PolarAngleAxis dataKey="subject" />
+                  <PolarRadiusAxis angle={30} domain={[0, 150]} />
+                  <Radar
+                    name="Mike"
+                    dataKey="A"
+                    stroke="#8884d8"
+                    fill="#8884d8"
+                    fillOpacity={0.8}
+                  />
+                  <Legend />
+                </RadarChart>
               </Card>
             </Grid>
           </Grid>
