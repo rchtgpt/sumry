@@ -335,47 +335,46 @@ const Dashboard = (props) => {
           } else {
             tempDevColors.push(white);
           }
-		}
+        }
         setDevColors(tempDevColors);
         getOpenPulls();
         getUpdatedPulls();
         getOpenedIssues();
         getUpdatedIssues();
-		getCommitsCreated();
-		preparePullLinkList();
+        getCommitsCreated();
       }
     }
   }, [currentUser]);
 
   const preparePullLinkList = () => {
-	setLinkList([]);
-	const tempLinkList = [];
-	pullsOpened.forEach((pull) =>
-	  tempLinkList.push({
-		id: pull.id,
-		title: pull.title,
-		link: pull.link,
-		status: "created",
-	  })
-	);
-	pullsUpdated.forEach((pull) =>
-	  tempLinkList.push({
-		id: pull.id,
-		title: pull.title,
-		link: pull.link,
-		status: "updated",
-	  })
-	);
-	pullsMerged.forEach((pull) =>
-	  tempLinkList.push({
-		id: pull.id,
-		title: pull.title,
-		link: pull.link,
-		status: "merged",
-	  })
-	);
-	setLinkList(tempLinkList);
-  }
+    setLinkList([]);
+    const tempLinkList = [];
+    pullsOpened.forEach((pull) =>
+      tempLinkList.push({
+        id: pull.id,
+        title: pull.title,
+        link: pull.link,
+        status: "created",
+      })
+    );
+    pullsUpdated.forEach((pull) =>
+      tempLinkList.push({
+        id: pull.id,
+        title: pull.title,
+        link: pull.link,
+        status: "updated",
+      })
+    );
+    pullsMerged.forEach((pull) =>
+      tempLinkList.push({
+        id: pull.id,
+        title: pull.title,
+        link: pull.link,
+        status: "merged",
+      })
+    );
+    setLinkList(tempLinkList);
+  };
 
   const handlePullClick = () => {
     if (colors[0] !== lightGray) {
@@ -432,7 +431,7 @@ const Dashboard = (props) => {
   const handleCommentClick = () => {
     if (colors[3] !== lightGray) {
       setColors([white, white, white, lightGray]);
-	  setTitle("Comments");
+      setTitle("Comments");
     }
   };
 
@@ -628,7 +627,17 @@ const Dashboard = (props) => {
               <Grid item sm={6}>
                 <Card style={{ height: "60vh" }} variant="outlined">
                   <CardHeader title={title} className="cardHeader" />
-                  <CardContent></CardContent>
+                  <CardContent>
+                    {linkList.map((item) => (
+                      <ListCard
+                        key={item.id}
+                        id={item.id}
+                        status={item.status}
+                        title={item.title}
+                        link={item.link}
+                      />
+                    ))}
+                  </CardContent>
                 </Card>
               </Grid>
             </Grid>
