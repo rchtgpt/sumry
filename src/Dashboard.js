@@ -409,6 +409,11 @@ const Dashboard = (props) => {
       })
     );
     setLinkList(tempLinkList);
+    setData([]);
+    setData([
+      { name: "Issues Opened", value: issuesOpened.length },
+      { name: "Issues Resolved", value: issueResolved.length },
+    ]);
   };
 
   const prepareCommitLinkList = () => {
@@ -453,6 +458,13 @@ const Dashboard = (props) => {
     if (colors[3] !== lightGray) {
       setColors([white, white, white, lightGray]);
       setTitle("Comments");
+      setLinkList([]);
+      setData([]);
+      setData([
+        { name: "Pull Requests", value: pullsComments.length },
+        { name: "Issues", value: issueComments.length },
+        { name: "Commits", value: commitComments.length },
+      ]);
     }
   };
 
@@ -649,15 +661,21 @@ const Dashboard = (props) => {
                 <Card style={{ height: "60vh" }} variant="outlined">
                   <CardHeader title={title} className="cardHeader" />
                   <CardContent>
-                    {linkList.map((item) => (
-                      <ListCard
-                        key={item.id}
-                        id={item.id}
-                        status={item.status}
-                        title={item.title}
-                        link={item.link}
-                      />
-                    ))}
+                    {linkList.length === 0 ? (
+                      <Typography variant="h2" className="errorText">
+                        Nothing to show!
+                      </Typography>
+                    ) : (
+                      linkList.map((item) => (
+                        <ListCard
+                          key={item.id}
+                          id={item.id}
+                          status={item.status}
+                          title={item.title}
+                          link={item.link}
+                        />
+                      ))
+                    )}
                   </CardContent>
                 </Card>
               </Grid>
@@ -712,7 +730,9 @@ const Dashboard = (props) => {
                       dataKey="uv"
                     />
                   </RadialBarChart>
-                  <p id="projectStatText">14/28 Pull Requests</p>
+                  <p id="projectStatText">
+                    {pullsOpened.length}/28 Pull Requests Opened
+                  </p>
                 </CardContent>
               </Card>
             </Grid>

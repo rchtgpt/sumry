@@ -1,93 +1,98 @@
 html {
-	overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 * {
-	font-size: 100%;
-	font-family: "Lexend Deca", sans-serif;
+  font-size: 100%;
+  font-family: "Lexend Deca", sans-serif;
 }
 
 .appBarItem:hover {
-	color: #cdd5d1;
+  color: #cdd5d1;
 }
 
 .teamCard {
-	margin: 0.5rem;
+  margin: 0.5rem;
 }
 
 .listCard {
-	padding: 0.5em;
-	margin: 0.5em;
-	width: 560px;
-	height: 60px;
+  padding: 0.5em;
+  margin: 0.5em;
+  width: 560px;
+  height: 60px;
 }
 
 .aboutCard {
-	margin-top: 7rem;
-	margin-bottom: 2.5rem;
+  margin-top: 7rem;
+  margin-bottom: 2.5rem;
 }
 
 .yt-video {
-	margin-left: 15rem;
-	margin-top: 2rem;
-	margin-bottom: 1rem;
+  margin-left: 15rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 .loginForm {
-	padding: 2em;
-	margin: 10rem;
-	border-width: 2px;
+  padding: 2em;
+  margin: 10rem;
+  border-width: 2px;
 }
 
 .dashLayout {
-	margin: 1.5em;
+  margin: 1.5em;
 }
 
 .topStats {
-	margin-top: 2em;
-	text-align: center;
+  margin-top: 2em;
+  text-align: center;
 }
 
 .reportOverview {
-	margin-top: 2.4em;
-	margin-left: 1em;
-	text-decoration: underline;
-	color: #0052cc;
+  margin-top: 2.4em;
+  margin-left: 1em;
+  text-decoration: underline;
+  color: #0052cc;
 }
 
 .avatar {
-	margin-top: 5em;
-	margin-right: 5em;
-	border: 2px solid #0052cc;
+  margin-top: 5em;
+  margin-right: 5em;
+  border: 2px solid #0052cc;
 }
 
 .devNames {
-	margin-top: 5;
-	padding: 7;
-	cursor: pointer;
+  margin-top: 5;
+  padding: 7;
+  cursor: pointer;
 }
 
 .cardHeader {
-	background-color: #0052cc;
-	color: #fff;
+  background-color: #0052cc;
+  color: #fff;
 }
 
 .tableHeader {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .projectStatPie {
-	margin-top: -4rem;
-	margin-left: -1rem;
+  margin-top: -5rem;
+  margin-left: 2rem;
 }
 
 #projectStatText {
-	margin-top: -3.5rem;
-	margin-left: 4rem;
+  margin-top: -5rem;
+  margin-left: 4rem;
 }
 
 .devListHeader {
-	color: #fff;
-	margin-left: -1em;
-	margin-bottom: -1em;
+  color: #fff;
+  margin-left: -1em;
+  margin-bottom: -1em;
+}
+
+.errorText {
+  color: #9ab7d5;
+  text-align: center;
 }
