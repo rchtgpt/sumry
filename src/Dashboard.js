@@ -9,7 +9,15 @@ import {
   CardContent,
 } from "@material-ui/core";
 import { Col, Row, Image } from "react-bootstrap";
-import { PieChart, Pie, Tooltip, RadialBarChart, RadialBar } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Tooltip,
+  RadialBarChart,
+  RadialBar,
+  Legend,
+  Cell,
+} from "recharts";
 import { navigate } from "@reach/router";
 import ListCard from "./ListCard";
 
@@ -39,6 +47,7 @@ const Dashboard = (props) => {
 
   const lightGray = "#D4E0ED";
   const white = "#FFFFFF";
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   const [colors, setColors] = useState([lightGray, white, white, white]);
   const [devColors, setDevColors] = useState([]);
   const [title, setTitle] = useState("Pull Requests");
@@ -311,14 +320,7 @@ const Dashboard = (props) => {
     setDevColors(tempDevColors);
   };
 
-  const data = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
-    { name: "Group C", value: 300 },
-    { name: "Group D", value: 200 },
-    { name: "Group E", value: 278 },
-    { name: "Group F", value: 189 },
-  ];
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     if (props.location.state === null) {
@@ -379,6 +381,12 @@ const Dashboard = (props) => {
       })
     );
     setLinkList(tempLinkList);
+    setData([]);
+    setData([
+      { name: "Pull Requests Opened", value: pullsOpened.length },
+      { name: "Pull Requests Merged", value: pullsMerged.length },
+      { name: "Pull Requests Updated", value: pullsUpdated.length },
+    ]);
   };
 
   const prepareIssueLinkList = () => {
@@ -449,12 +457,6 @@ const Dashboard = (props) => {
   };
 
   const projectStats = [
-    {
-      name: "18-24",
-      uv: 31.47,
-      pv: 2400,
-      fill: "#8884d8",
-    },
     {
       name: "25-29",
       uv: 26.69,
@@ -625,14 +627,20 @@ const Dashboard = (props) => {
                   <PieChart width={400} height={400}>
                     <Pie
                       dataKey="value"
-                      isAnimationActive={false}
+                      isAnimationActive={true}
                       data={data}
                       cx={200}
                       cy={200}
-                      outerRadius={80}
-                      fill="#8884d8"
                       label
-                    />
+                    >
+                      {data.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Legend verticalAlign="bottom" height={36} />
                     <Tooltip />
                   </PieChart>
                 </Card>
