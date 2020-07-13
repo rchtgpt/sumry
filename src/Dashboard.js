@@ -244,7 +244,7 @@ const Dashboard = (props) => {
     ).then((response) => {
       setTotalIssuesResolved(response.data.values.length);
       response.data.values.map((issue) => {
-        if (issue.reporter.uuid === currentUser.id) {
+        if (issue.reporter.uuid === currentUser.id && issue.created_on <= start.toISOString()) {
           setIssueResolved((oldIssueResolved) => [
             ...oldIssueResolved,
             {
@@ -504,6 +504,36 @@ const Dashboard = (props) => {
     setLinkList(tempLinkList);
   };
 
+  const prepareCommentLinkList = () => {
+    setLinkList([]);
+    const tempLinkList = [];
+    pullsComments.forEach((comment) => {
+      tempLinkList.push({
+        id: comment.id,
+        title: "Pull Request Comment",
+        status: "created",
+        link: comment.pull_link,
+      });
+    });
+    issueComments.forEach((comment) => {
+      tempLinkList.push({
+        id: comment.id,
+        title: "Issue Comment",
+        status: "created",
+        link: comment.issue_link,
+      });
+    });
+    commitComments.forEach((comment)=>{
+      tempLinkList.push({
+        id: comment.id,
+        title: "Commit Comment",
+        status: "created",
+        link: comment.link,
+      })
+    })
+    setLinkList(tempLinkList);
+  };
+
   const handlePullClick = () => {
     if (colors[0] !== lightGray) {
       setColors([lightGray, white, white, white]);
@@ -532,7 +562,7 @@ const Dashboard = (props) => {
     if (colors[3] !== lightGray) {
       setColors([white, white, white, lightGray]);
       setTitle("Comments");
-      setLinkList([]);
+      prepareCommentLinkList();
       setData([]);
       setData([
         { name: "Pull Requests", value: pullsComments.length },
@@ -750,7 +780,7 @@ const Dashboard = (props) => {
           <Grid item container direction="column" sm={3} spacing={2}>
             <Grid item>
               <Card
-                style={{ height: "45vh", background: "#0052CC" }}
+                style={{ height: "auto", background: "#0052CC" }}
                 variant="outlined"
               >
                 <Col>
@@ -761,7 +791,10 @@ const Dashboard = (props) => {
                       key={user.id}
                       className="devNames"
                       onClick={() => setCurrentUser(user)}
-                      style={{ background: devColors[index] }}
+                      style={{
+                        background: devColors[index],
+                        marginBottom: "12px",
+                      }}
                     >
                       <Typography>{user.name}</Typography>
                     </Card>
