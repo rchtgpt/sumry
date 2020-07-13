@@ -7,7 +7,7 @@ const About = () => {
 		<Container fluid="md">
 			<Card style={{}} className="aboutCard">
 				<Col className="yt-video">
-					<ReactPlayer url="https://www.youtube.com/watch?v=6KMGhUo36As&feature=youtu.be" />
+					<ReactPlayer url="https://youtu.be/9ogMuLHw7ds" />
 				</Col>
 				<Col>
 					<Card.Body>
