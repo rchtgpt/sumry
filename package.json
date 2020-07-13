@@ -1,46 +1,44 @@
 {
-  "name": "sumry",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "parcel src/index.html",
-    "format": "prettier \"src/** /* .{js, html}\" --write",
-    "lint": "eslint \"src/** /* .{js, jsx}\" --quiet",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.1.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-react-hooks": "^4.0.4",
-    "parcel-bundler": "^1.12.4",
-    "prettier": "^2.0.5"
-  },
-  "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "@reach/router": "^1.3.4",
-    "@types/react": "^16.9.41",
-    "axios": "^0.19.2",
-    "bootstrap": "^4.5.0",
-    "bootstrap-icons": "^1.0.0-alpha5",
-    "holderjs": "^2.9.7",
-    "jquery": "^3.5.1",
-    "popper.js": "^1.16.1",
-    "react": "^16.13.1",
-    "react-bootstrap": "^1.1.1",
-    "react-dom": "^16.13.1",
-    "react-player": "^2.5.0",
-    "recharts": "^1.8.5",
-    "styled-components": "^5.1.1"
-  },
-  "browserslist": [
-    "since 2017-06"
-  ]
+	"name": "sumry",
+	"version": "1.0.0",
+	"description": "your project manager, for you.",
+	"main": "index.js",
+	"scripts": {
+		"dev": "parcel index.html",
+		"format": "prettier \"/* .{js, html}\" --write",
+		"lint": "eslint \"/* .{js, jsx}\" --quiet",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"babel-eslint": "^10.1.0",
+		"eslint": "^7.1.0",
+		"eslint-config-prettier": "^6.11.0",
+		"eslint-plugin-import": "^2.20.2",
+		"eslint-plugin-jsx-a11y": "^6.2.3",
+		"eslint-plugin-react": "^7.20.0",
+		"eslint-plugin-react-hooks": "^4.0.4",
+		"parcel-bundler": "^1.12.4",
+		"prettier": "^2.0.5"
+	},
+	"dependencies": {
+		"@material-ui/core": "^4.11.0",
+		"@reach/router": "^1.3.4",
+		"@types/react": "^16.9.41",
+		"axios": "^0.19.2",
+		"bootstrap": "^4.5.0",
+		"bootstrap-icons": "^1.0.0-alpha5",
+		"holderjs": "^2.9.7",
+		"jquery": "^3.5.1",
+		"popper.js": "^1.16.1",
+		"react": "^16.13.1",
+		"react-bootstrap": "^1.1.1",
+		"react-dom": "^16.13.1",
+		"react-player": "^2.5.0",
+		"recharts": "^1.8.5",
+		"styled-components": "^5.1.1"
+	},
+	"browserslist": [ "since 2017-06" ]
 }
