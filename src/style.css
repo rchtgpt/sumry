@@ -18,8 +18,9 @@ html {
 .listCard {
 	padding: 0.5em;
 	margin: 0.5em;
-	width: 420px;
+	width: 100%;
 	height: 60px;
+	cursor: pointer;
 }
 
 .aboutCard {
@@ -102,7 +103,6 @@ html {
 	width: 15px;
 	height: 200px;
 	margin-top: -20px;
-	background-color: #16e16e;
 }
 
 #statusCardDivision {
@@ -116,8 +116,8 @@ html {
 }
 
 #titleCard {
-	margin-left: 10px;
-	width: 300px;
+	margin-left: 15px;
+	width: 100%;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
