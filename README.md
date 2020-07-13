@@ -1,7 +1,7 @@
 ## Sumry :v:
 
 _your project manager, for you._
-<br>
+<br><br>
 **Tired of having 2-hour long “standup meetings” which were supposed to be of barely 15 minutes?** We feel your pain too! We developed a wayto save you those unproductive hours. Here we present, **Sumry - a tool that generates a personalized report**, taking into account all the project related activities done throughout the day by each developer. **Our prime motive is to empower Program Managers** with a tool that brings all the work done by their developers on BitBucket, down to a single page.
 <br>
 
