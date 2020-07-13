@@ -244,7 +244,10 @@ const Dashboard = (props) => {
     ).then((response) => {
       setTotalIssuesResolved(response.data.values.length);
       response.data.values.map((issue) => {
-        if (issue.reporter.uuid === currentUser.id && issue.created_on <= start.toISOString()) {
+        if (
+          issue.reporter.uuid === currentUser.id &&
+          issue.created_on <= start.toISOString()
+        ) {
           setIssueResolved((oldIssueResolved) => [
             ...oldIssueResolved,
             {
@@ -523,14 +526,14 @@ const Dashboard = (props) => {
         link: comment.issue_link,
       });
     });
-    commitComments.forEach((comment)=>{
+    commitComments.forEach((comment) => {
       tempLinkList.push({
         id: comment.id,
         title: "Commit Comment",
         status: "created",
         link: comment.link,
-      })
-    })
+      });
+    });
     setLinkList(tempLinkList);
   };
 
@@ -555,6 +558,8 @@ const Dashboard = (props) => {
       setColors([white, white, lightGray, white]);
       setTitle("Commits");
       prepareCommitLinkList();
+      setData([]);
+      setData([{ name: "Commits Created", value: commitsCreated.length }]);
     }
   };
 
@@ -603,11 +608,15 @@ const Dashboard = (props) => {
                   onClick={handlePullClick}
                 >
                   <div className="topStats">
-                    <h1>{pullsOpened.length}</h1>
-                    <p>Pull Requests Opened</p>
+                    <h1 style={{ marginBottom: "30px" }}>
+                      {pullsOpened.length}
+                    </h1>
+                    <h3 style={{ marginBottom: "16px" }}>
+                      Pull Requests Opened
+                    </h3>
                     <svg
-                      width="2em"
-                      height="2em"
+                      width="3em"
+                      height="3em"
                       viewBox="0 0 16 16"
                       className="bi bi-file-earmark-diff"
                       fill="#0052cc"
@@ -638,11 +647,13 @@ const Dashboard = (props) => {
                   onClick={handleIssueClick}
                 >
                   <div className="topStats">
-                    <h1>{issuesOpened.length}</h1>
-                    <p>Issues Opened</p>
+                    <h1 style={{ marginBottom: "30px" }}>
+                      {issuesOpened.length}
+                    </h1>
+                    <h3 style={{ marginBottom: "16px" }}>Issues Opened</h3>
                     <svg
-                      width="2em"
-                      height="2em"
+                      width="3em"
+                      height="3em"
                       viewBox="0 0 16 16"
                       className="bi bi-exclamation-circle"
                       fill="#0052cc"
@@ -668,11 +679,13 @@ const Dashboard = (props) => {
                   onClick={handleCommitClick}
                 >
                   <div className="topStats">
-                    <h1>{commitsCreated.length}</h1>
-                    <p>Commits Created</p>
+                    <h1 style={{ marginBottom: "30px" }}>
+                      {commitsCreated.length}
+                    </h1>
+                    <h3 style={{ marginBottom: "16px" }}>Commits Created</h3>
                     <svg
-                      width="2em"
-                      height="2em"
+                      width="3em"
+                      height="3em"
                       viewBox="0 0 16 16"
                       className="bi bi-code-slash"
                       fill="#0052cc"
@@ -697,15 +710,15 @@ const Dashboard = (props) => {
                   onClick={handleCommentClick}
                 >
                   <div className="topStats">
-                    <h1>
+                    <h1 style={{ marginBottom: "30px" }}>
                       {pullsComments.length +
                         issueComments.length +
                         commitComments.length}
                     </h1>
-                    <p>Comments</p>
+                    <h3 style={{ marginBottom: "16px" }}>Comments</h3>{" "}
                     <svg
-                      width="2em"
-                      height="2em"
+                      width="3em"
+                      height="3em"
                       viewBox="0 0 16 16"
                       className="bi bi-chat-left-text"
                       fill="#0052cc"
