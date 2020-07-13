@@ -14,7 +14,7 @@ _your project manager, for you._
 
 ### Demo creds:
 
-username: hmg65
+username: hmg65 <br>
 password: code@123
 
 ### run locally
