@@ -559,7 +559,10 @@ const Dashboard = (props) => {
       setTitle("Commits");
       prepareCommitLinkList();
       setData([]);
-      setData([{ name: "Commits Created", value: commitsCreated.length }]);
+      setData([
+        { name: "Commits Created", value: commitsCreated.length },
+        { name: "Comments on Commits", value: commitComments.length },
+      ]);
     }
   };
 
