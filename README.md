@@ -11,3 +11,12 @@ _your project manager, for you._
 - Reduces unproductive man-hours.
 - Enlists & categorizes each activity done, all at a single place; saving you from a lot of hassle.
 - Doesn’t let your ability to justify yourself come in the way of your promotion. We help your work speak for itself.
+
+### Demo creds:
+
+username: hmg65
+password: code@123
+
+### run locally
+
+to test locally use `npm run dev`
