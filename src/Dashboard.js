@@ -512,7 +512,7 @@ const Dashboard = (props) => {
     const tempLinkList = [];
     pullsComments.forEach((comment) => {
       tempLinkList.push({
-        id: comment.id,
+        id: comment.id.toString(),
         title: "Pull Request Comment",
         status: "created",
         link: comment.pull_link,
@@ -520,7 +520,7 @@ const Dashboard = (props) => {
     });
     issueComments.forEach((comment) => {
       tempLinkList.push({
-        id: comment.id,
+        id: comment.id.toString(),
         title: "Issue Comment",
         status: "created",
         link: comment.issue_link,
@@ -528,7 +528,7 @@ const Dashboard = (props) => {
     });
     commitComments.forEach((comment) => {
       tempLinkList.push({
-        id: comment.id,
+        id: comment.id.toString(),
         title: "Commit Comment",
         status: "created",
         link: comment.link,
@@ -744,16 +744,16 @@ const Dashboard = (props) => {
             <Grid container item direction="row" spacing={2}>
               <Grid item sm={6}>
                 <Card
-                  style={{ height: "60vh", background: "#fff" }}
+                  style={{ height: "46vh", background: "#fff" }}
                   variant="outlined"
+                  className="pieChartCard"
                 >
-                  <PieChart width={400} height={400}>
+                  <PieChart width={400} height={400} id="pie">
                     <Pie
                       dataKey="value"
                       isAnimationActive={true}
                       data={data}
-                      cx={200}
-                      cy={200}
+                      outerRadius={150}
                       label
                     >
                       {data.map((entry, index) => (
@@ -763,13 +763,13 @@ const Dashboard = (props) => {
                         />
                       ))}
                     </Pie>
-                    <Legend verticalAlign="bottom" height={36} />
+                   {/* <Legend align="right" layout="vertical" verticalAlign="middle" height={36}/> */}
                     <Tooltip />
                   </PieChart>
                 </Card>
               </Grid>
               <Grid item sm={6}>
-                <Card style={{ height: "60vh" }} variant="outlined">
+                <Card style={{ height: "46vh" }} variant="outlined">
                   <CardHeader title={title} className="cardHeader" />
                   <CardContent>
                     {linkList.length === 0 ? (
@@ -836,8 +836,8 @@ const Dashboard = (props) => {
                   <Radar
                     name={currentUser !== undefined ? currentUser.name : "Test"}
                     dataKey="A"
-                    stroke="#8884d8"
-                    fill="#8884d8"
+                    stroke="#1752cc"
+                    fill="#1752cc"
                     fillOpacity={0.8}
                   />
                   <Legend />

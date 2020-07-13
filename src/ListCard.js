@@ -20,9 +20,15 @@ const ListCard = ({ id, title, status, link }) => {
               style={{ backgroundColor: colors.get(status) }}
             />
           </Grid>
-          <Grid item xs={1}>
-            <Typography variant="h6">{id}</Typography>
+          {id.length > 3 ? (
+            <Grid item xs={1}>
+            <Typography variant="body1" id="commit-sha">{id}</Typography>
           </Grid>
+          ) : (
+            <Grid item xs={1}>
+              <Typography variant="body1">{id}</Typography>
+            </Grid>
+          )}
           <Grid>
             <Card id="statusCardDivision" />
           </Grid>
