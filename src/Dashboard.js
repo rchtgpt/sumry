@@ -1,57 +1,64 @@
-import React, { useEffect, useState } from 'react';
-import Axios from 'axios';
-import { Grid, Paper, Card, CardHeader, Typography, CardContent } from '@material-ui/core';
-import { Col, Row, Image } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import Axios from "axios";
 import {
-	PieChart,
-	Pie,
-	Tooltip,
-	Legend,
-	Cell,
-	RadarChart,
-	PolarGrid,
-	PolarAngleAxis,
-	Radar,
-	PolarRadiusAxis
-} from 'recharts';
-import { navigate } from '@reach/router';
-import ListCard from './ListCard';
+  Grid,
+  Paper,
+  Card,
+  CardHeader,
+  Typography,
+  CardContent,
+} from "@material-ui/core";
+import { Col, Row, Image } from "react-bootstrap";
+import {
+  PieChart,
+  Pie,
+  Tooltip,
+  Legend,
+  Cell,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  Radar,
+  PolarRadiusAxis,
+} from "recharts";
+import { navigate } from "@reach/router";
+import ListCard from "./ListCard";
 
 const Dashboard = (props) => {
-	const [ users, setUsers ] = useState([]);
-	const [ currentUser, setCurrentUser ] = useState();
+  const [users, setUsers] = useState([]);
+  const [currentUser, setCurrentUser] = useState();
 
-	const start = new Date();
-	start.setHours(0, 0, 0, 0);
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
 
-	var end = new Date();
-	end.setHours(23, 59, 59, 999);
+  var end = new Date();
+  end.setHours(23, 59, 59, 999);
 
-	const [ pullsOpened, setPullsOpened ] = useState([]);
-	const [ pullsMerged, setPullsMerged ] = useState([]);
-	const [ pullsComments, setPullsComments ] = useState([]);
-	const [ pullsUpdated, setPullsUpdated ] = useState([]);
-	const [ totalPullsOpened, setTotalPullsOpened ] = useState(0);
-	const [ totalPullsMerged, setTotalPullsMerged ] = useState(0);
+  const [pullsOpened, setPullsOpened] = useState([]);
+  const [pullsMerged, setPullsMerged] = useState([]);
+  const [pullsComments, setPullsComments] = useState([]);
+  const [pullsUpdated, setPullsUpdated] = useState([]);
+  const [totalPullsOpened, setTotalPullsOpened] = useState(0);
+  const [totalPullsMerged, setTotalPullsMerged] = useState(0);
 
-	const [ issuesOpened, setIssuesOpened ] = useState([]);
-	const [ issueComments, setIssueComments ] = useState([]);
-	const [ issueResolved, setIssueResolved ] = useState([]);
-	const [ totalIssuesOpened, setTotalIssuesOpened ] = useState(0);
-	const [ totalIssuesResolved, setTotalIssuesResolved ] = useState(0);
+  const [issuesOpened, setIssuesOpened] = useState([]);
+  const [issueComments, setIssueComments] = useState([]);
+  const [issueResolved, setIssueResolved] = useState([]);
+  const [totalIssuesOpened, setTotalIssuesOpened] = useState(0);
+  const [totalIssuesResolved, setTotalIssuesResolved] = useState(0);
 
-	const [ commitsCreated, setCommitsCreated ] = useState([]);
-	const [ commitComments, setCommitComments ] = useState([]);
-	const [ totalCommitsCreated, setTotalCommitsCreated ] = useState(0);
+  const [commitsCreated, setCommitsCreated] = useState([]);
+  const [commitComments, setCommitComments] = useState([]);
+  const [totalCommitsCreated, setTotalCommitsCreated] = useState(0);
 
-	const [ linkList, setLinkList ] = useState([]);
+  const [linkList, setLinkList] = useState([]);
 
-	const lightGray = '#D4E0ED';
-	const white = '#FFFFFF';
-	const COLORS = [ '#0088FE', '#00C49F', '#FFBB28', '#FF8042' ];
-	const [ colors, setColors ] = useState([ lightGray, white, white, white ]);
-	const [ devColors, setDevColors ] = useState([]);
-	const [ title, setTitle ] = useState('Pull Requests');
+  const lightGray = "#D4E0ED";
+  const white = "#FFFFFF";
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const [colors, setColors] = useState([lightGray, white, white, white]);
+  const [devColors, setDevColors] = useState([]);
+  const [title, setTitle] = useState("Pull Requests");
 
   const [projectStats, setProjectStats] = useState([]);
 
@@ -255,7 +262,7 @@ const Dashboard = (props) => {
   const getCommitsCreated = async () => {
     setCommitsCreated([]);
     setCommitComments([]);
-    const tempCommitCount = 0;
+    var tempCommitCount = 0;
     await Axios.get(
       `https://api.bitbucket.org/2.0/repositories/codetest0/codegeist/commits`,
       {
@@ -274,7 +281,7 @@ const Dashboard = (props) => {
             setCommitsCreated((oldCommitsCreated) => [
               ...oldCommitsCreated,
               {
-                id: commit.hash,
+                id: commit.hash.substring(0, 8),
                 title: commit.summary.raw,
                 link: commit.links.html.href,
               },
@@ -316,81 +323,78 @@ const Dashboard = (props) => {
     setTotalCommitsCreated(tempCommitCount);
   };
 
-	const getUsers = async () => {
-		const tempUsers = [];
-		const tempDevColors = [ lightGray ];
-		await Axios.get('https://api.bitbucket.org/2.0/workspaces/codetest0/members', {
-			auth: {
-				username: props.location.state.username,
-				password: props.location.state.password
-			}
-		}).then((response) => {
-			if (response.status === 200) {
-				response.data.values.map((u) => {
-					tempUsers.push({
-						id: u.user.uuid,
-						img_link: u.user.links.avatar.href,
-						name: u.user.nickname
-					});
-				});
-			}
-		});
-		setUsers(tempUsers);
-		setCurrentUser(tempUsers[0]);
-		for (var i = 0; i < tempUsers.length - 1; i++) {
-			tempDevColors.push(white);
-		}
-		setDevColors(tempDevColors);
-	};
+  const getUsers = async () => {
+    const tempUsers = [];
+    const tempDevColors = [lightGray];
+    await Axios.get(
+      "https://api.bitbucket.org/2.0/workspaces/codetest0/members",
+      {
+        auth: {
+          username: props.location.state.username,
+          password: props.location.state.password,
+        },
+      }
+    ).then((response) => {
+      if (response.status === 200) {
+        response.data.values.map((u) => {
+          tempUsers.push({
+            id: u.user.uuid,
+            img_link: u.user.links.avatar.href,
+            name: u.user.nickname,
+          });
+        });
+      }
+    });
+    setUsers(tempUsers);
+    setCurrentUser(tempUsers[0]);
+    for (var i = 0; i < tempUsers.length - 1; i++) {
+      tempDevColors.push(white);
+    }
+    setDevColors(tempDevColors);
+  };
 
-	const [ data, setData ] = useState([]);
+  const [data, setData] = useState([]);
 
-	useEffect(
-		() => {
-			if (props.location.state === null) {
-				navigate('/login');
-			} else {
-				if (users.length === 0) {
-					getUsers();
-				} else {
-					setDevColors([]);
-					const tempDevColors = [];
-					for (var i = 0; i < users.length; i++) {
-						if (users.findIndex((user) => user === currentUser) === i) {
-							tempDevColors.push(lightGray);
-						} else {
-							tempDevColors.push(white);
-						}
-					}
-					setDevColors(tempDevColors);
-					getOpenPulls();
-					getUpdatedPulls();
-					getOpenedIssues();
-					getUpdatedIssues();
-					getCommitsCreated();
-					handlePullClick();
-				}
-			}
-		},
-		[ currentUser ]
-	);
+  useEffect(() => {
+    if (props.location.state === null) {
+      navigate("/login");
+    } else {
+      if (users.length === 0) {
+        getUsers();
+      } else {
+        setDevColors([]);
+        const tempDevColors = [];
+        for (var i = 0; i < users.length; i++) {
+          if (users.findIndex((user) => user === currentUser) === i) {
+            tempDevColors.push(lightGray);
+          } else {
+            tempDevColors.push(white);
+          }
+        }
+        setDevColors(tempDevColors);
+        getOpenPulls();
+        getUpdatedPulls();
+        getOpenedIssues();
+        getUpdatedIssues();
+        getCommitsCreated();
+        handlePullClick();
+      }
+    }
+  }, [currentUser]);
 
-	useEffect(
-		() => {
-			preparePullLinkList();
-		},
-		[ pullsOpened, pullsMerged, pullsUpdated ]
-	);
+  useEffect(() => {
+    preparePullLinkList();
+  }, [pullsOpened, pullsMerged, pullsUpdated]);
 
   useEffect(() => {
     setProjectStats([
       {
-        subject: "Pull Requests Opened",
+        subject: "Pulls Opened",
         A: pullsOpened.length,
         fullMark: totalPullsOpened,
       },
       {
-        subject: "Pull Requests Merged",
+        subject: "Pulls Merged",
         A: pullsMerged.length,
         fullMark: totalPullsMerged,
       },
@@ -410,7 +414,18 @@ const Dashboard = (props) => {
         fullMark: totalCommitsCreated,
       },
     ]);
-  }, [commitsCreated, issueResolved, issuesOpened, pullsMerged, pullsOpened, totalCommitsCreated, totalIssuesOpened, totalIssuesResolved, totalPullsMerged, totalPullsOpened]);
+  }, [
+    commitsCreated,
+    issueResolved,
+    issuesOpened,
+    pullsMerged,
+    pullsOpened,
+    totalCommitsCreated,
+    totalIssuesOpened,
+    totalIssuesResolved,
+    totalPullsMerged,
+    totalPullsOpened,
+  ]);
 
   const preparePullLinkList = () => {
     setLinkList([]);
@@ -448,84 +463,84 @@ const Dashboard = (props) => {
     ]);
   };
 
-	const prepareIssueLinkList = () => {
-		setLinkList([]);
-		const tempLinkList = [];
-		issuesOpened.forEach((issue) =>
-			tempLinkList.push({
-				id: issue.id,
-				title: issue.title,
-				link: issue.link,
-				status: 'created'
-			})
-		);
-		issueResolved.forEach((issue) =>
-			tempLinkList.push({
-				id: issue.id,
-				title: issue.title,
-				link: issue.link,
-				status: 'resolved'
-			})
-		);
-		setLinkList(tempLinkList);
-		setData([]);
-		setData([
-			{ name: 'Issues Opened', value: issuesOpened.length },
-			{ name: 'Issues Resolved', value: issueResolved.length }
-		]);
-	};
+  const prepareIssueLinkList = () => {
+    setLinkList([]);
+    const tempLinkList = [];
+    issuesOpened.forEach((issue) =>
+      tempLinkList.push({
+        id: issue.id,
+        title: issue.title,
+        link: issue.link,
+        status: "created",
+      })
+    );
+    issueResolved.forEach((issue) =>
+      tempLinkList.push({
+        id: issue.id,
+        title: issue.title,
+        link: issue.link,
+        status: "resolved",
+      })
+    );
+    setLinkList(tempLinkList);
+    setData([]);
+    setData([
+      { name: "Issues Opened", value: issuesOpened.length },
+      { name: "Issues Resolved", value: issueResolved.length },
+    ]);
+  };
 
-	const prepareCommitLinkList = () => {
-		setLinkList([]);
-		const tempLinkList = [];
-		commitsCreated.forEach((commit) =>
-			tempLinkList.push({
-				id: commit.id,
-				title: commit.title,
-				link: commit.link,
-				status: 'created'
-			})
-		);
-		setLinkList(tempLinkList);
-	};
+  const prepareCommitLinkList = () => {
+    setLinkList([]);
+    const tempLinkList = [];
+    commitsCreated.forEach((commit) =>
+      tempLinkList.push({
+        id: commit.id,
+        title: commit.title,
+        link: commit.link,
+        status: "created",
+      })
+    );
+    setLinkList(tempLinkList);
+  };
 
-	const handlePullClick = () => {
-		if (colors[0] !== lightGray) {
-			setColors([ lightGray, white, white, white ]);
-			setTitle('Pull Requests');
-			preparePullLinkList();
-		}
-	};
+  const handlePullClick = () => {
+    if (colors[0] !== lightGray) {
+      setColors([lightGray, white, white, white]);
+      setTitle("Pull Requests");
+      preparePullLinkList();
+    }
+  };
 
-	const handleIssueClick = () => {
-		if (colors[1] !== lightGray) {
-			setColors([ white, lightGray, white, white ]);
-			setTitle('Issues');
-			prepareIssueLinkList();
-		}
-	};
+  const handleIssueClick = () => {
+    if (colors[1] !== lightGray) {
+      setColors([white, lightGray, white, white]);
+      setTitle("Issues");
+      prepareIssueLinkList();
+    }
+  };
 
-	const handleCommitClick = () => {
-		if (colors[2] !== lightGray) {
-			setColors([ white, white, lightGray, white ]);
-			setTitle('Commits');
-			prepareCommitLinkList();
-		}
-	};
+  const handleCommitClick = () => {
+    if (colors[2] !== lightGray) {
+      setColors([white, white, lightGray, white]);
+      setTitle("Commits");
+      prepareCommitLinkList();
+    }
+  };
 
-	const handleCommentClick = () => {
-		if (colors[3] !== lightGray) {
-			setColors([ white, white, white, lightGray ]);
-			setTitle('Comments');
-			setLinkList([]);
-			setData([]);
-			setData([
-				{ name: 'Pull Requests', value: pullsComments.length },
-				{ name: 'Issues', value: issueComments.length },
-				{ name: 'Commits', value: commitComments.length }
-			]);
-		}
-	};
+  const handleCommentClick = () => {
+    if (colors[3] !== lightGray) {
+      setColors([white, white, white, lightGray]);
+      setTitle("Comments");
+      setLinkList([]);
+      setData([]);
+      setData([
+        { name: "Pull Requests", value: pullsComments.length },
+        { name: "Issues", value: issueComments.length },
+        { name: "Commits", value: commitComments.length },
+      ]);
+    }
+  };
 
   return (
     <div>
@@ -680,51 +695,57 @@ const Dashboard = (props) => {
               </Grid>
             </Grid>
 
-						<Grid container item direction="row" spacing={2}>
-							<Grid item sm={6}>
-								<Card style={{ height: '60vh', background: '#fff' }} variant="outlined">
-									<PieChart width={400} height={400}>
-										<Pie
-											dataKey="value"
-											isAnimationActive={true}
-											data={data}
-											cx={200}
-											cy={200}
-											label
-										>
-											{data.map((entry, index) => (
-												<Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-											))}
-										</Pie>
-										<Legend verticalAlign="bottom" height={36} />
-										<Tooltip />
-									</PieChart>
-								</Card>
-							</Grid>
-							<Grid item sm={6}>
-								<Card style={{ height: '60vh' }} variant="outlined">
-									<CardHeader title={title} className="cardHeader" />
-									<CardContent>
-										{linkList.length === 0 ? (
-											<Typography variant="h2" className="errorText">
-												Nothing to show :(
-											</Typography>
-										) : (
-											linkList.map((item) => (
-												<ListCard
-													key={item.id}
-													id={item.id}
-													status={item.status}
-													title={item.title}
-													link={item.link}
-												/>
-											))
-										)}
-									</CardContent>
-								</Card>
-							</Grid>
-						</Grid>
-					</Grid>
+            <Grid container item direction="row" spacing={2}>
+              <Grid item sm={6}>
+                <Card
+                  style={{ height: "60vh", background: "#fff" }}
+                  variant="outlined"
+                >
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      dataKey="value"
+                      isAnimationActive={true}
+                      data={data}
+                      cx={200}
+                      cy={200}
+                      label
+                    >
+                      {data.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Legend verticalAlign="bottom" height={36} />
+                    <Tooltip />
+                  </PieChart>
+                </Card>
+              </Grid>
+              <Grid item sm={6}>
+                <Card style={{ height: "60vh" }} variant="outlined">
+                  <CardHeader title={title} className="cardHeader" />
+                  <CardContent>
+                    {linkList.length === 0 ? (
+                      <Typography variant="h2" className="errorText">
+                        Nothing to show :(
+                      </Typography>
+                    ) : (
+                      linkList.map((item) => (
+                        <ListCard
+                          key={item.id}
+                          id={item.id}
+                          status={item.status}
+                          title={item.title}
+                          link={item.link}
+                        />
+                      ))
+                    )}
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Grid>
 
           <Grid item container direction="column" sm={3} spacing={2}>
             <Grid item>
@@ -755,9 +776,9 @@ const Dashboard = (props) => {
               >
                 <CardHeader title="Project Stats" className="cardHeader" />
                 <RadarChart
-                  outerRadius={90}
-                  width={700}
-                  height={250}
+                  outerRadius={70}
+                  width={450}
+                  height={300}
                   data={projectStats}
                 >
                   <PolarGrid />
