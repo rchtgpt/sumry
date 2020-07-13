@@ -20,3 +20,6 @@ password: code@123
 ### run locally
 
 to test locally use `npm run dev`
+
+### Video
+[![Watch the video](https://img.youtube.com/vi/hUHJmq0Vmho/hqdefault.jpg)](https://youtu.be/hUHJmq0Vmho)
