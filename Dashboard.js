@@ -120,7 +120,10 @@ const Dashboard = (props) => {
       );
       // Check each PR manually to check dev's comment
       response.data.values.map((pull) => {
-        if (pull.author.uuid === currentUser.id) {
+        if (
+          pull.author.uuid === currentUser.id &&
+          pull.created_on < start.toISOString()
+        ) {
           if (pull.state === "MERGED") {
             setPullsMerged((oldPullsMerged) => [
               ...oldPullsMerged,
@@ -763,7 +766,7 @@ const Dashboard = (props) => {
                         />
                       ))}
                     </Pie>
-                   {/* <Legend align="right" layout="vertical" verticalAlign="middle" height={36}/> */}
+                    {/* <Legend align="right" layout="vertical" verticalAlign="middle" height={36}/> */}
                     <Tooltip />
                   </PieChart>
                 </Card>
