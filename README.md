@@ -12,14 +12,16 @@ _your project manager, for you._
 - Enlists & categorizes each activity done, all at a single place; saving you from a lot of hassle.
 - Doesn’t let your ability to justify yourself come in the way of your promotion. We help your work speak for itself.
 
-### Demo creds:
+### Demo credentials:
 
 username: hmg65 <br>
 password: code@123
 
-### run locally
+### Run locally
 
 to test locally use `npm run dev`
 
 ### Video
 [![Watch the video](https://img.youtube.com/vi/hUHJmq0Vmho/hqdefault.jpg)](https://youtu.be/hUHJmq0Vmho)
+
+### Next Steps
