@@ -37,7 +37,7 @@
 		"react-bootstrap": "^1.1.1",
 		"react-dom": "^16.13.1",
 		"react-player": "^2.5.0",
-		"recharts": "^1.8.5",
+		"recharts": "^2.1.14",
 		"styled-components": "^5.1.1"
 	},
 	"browserslist": [ "since 2017-06" ]
